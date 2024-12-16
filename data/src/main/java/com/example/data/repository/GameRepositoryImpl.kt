@@ -7,12 +7,11 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
-    private val dataSource: GamesDataStoreImpl
+    private val gameDataSource: GamesDataStoreImpl
 ) : GameRepository {
-
     override suspend fun getDetail(): Resource<GamesResponse> {
         return try {
-            val response = dataSource.getListFirst()
+            val response = gameDataSource.getGameListsData()
             Resource.Success(response)
         } catch (e: IOException) {
             Resource.Failure(e)

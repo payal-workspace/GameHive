@@ -19,12 +19,12 @@ object UseCaseModule {
     @Singleton
     @Provides
     fun provideHomeUseCase(
-        getHomeRepository: GameRepository,
-        homeDomainModelMapper: CategoriesDomainDataMapper,
+        gameRepository: GameRepository,
+        categoriesToDomainDataMapper: CategoriesDomainDataMapper,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): GetGameCategoriesUseCase = GetGamesCategoriesUseCaseImp(
-        getHomeRepository,
-        homeDomainModelMapper,
+        gameRepository,
+        categoriesToDomainDataMapper,
         dispatcher
     )
 }

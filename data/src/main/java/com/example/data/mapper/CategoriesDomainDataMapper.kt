@@ -10,17 +10,18 @@ import javax.inject.Inject
 class CategoriesDomainDataMapper @Inject constructor() :
     DataToDomainModelMapper<GamesResponse, GamesModel> {
     override fun mapToDomainModel(responseModel: GamesResponse?): GamesModel {
-        val detailResponse = responseModel ?: return GamesModel(items = emptyList())
+        val detailResponse = requireNotNull(responseModel)
         return GamesModel(
-            items = dataProductsToDomainProducts(detailResponse.items)
+            name = responseModel.name,
+            gamePosterImage = responseModel.gamePosterImage,
+            items = dataToDomainModelItem(detailResponse.items)
         )
     }
 
-    private fun dataProductsToDomainProducts(otherProducts: List<GamesResponseItem>?): List<GamesItemModel>? {
-        return otherProducts?.map {
+    private fun dataToDomainModelItem(gameTitles: List<GamesResponseItem>?): List<GamesItemModel>? {
+        return gameTitles?.map {
             GamesItemModel(
-                name = it.name,
-                description = it.description
+                game_title = it.game_title
             )
         } ?: emptyList()
     }

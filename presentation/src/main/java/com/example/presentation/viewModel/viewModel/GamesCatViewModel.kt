@@ -1,4 +1,4 @@
-package com.example.presentation.viewModel
+package com.example.presentation.viewModel.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,21 +20,16 @@ class GamesCatViewModel @Inject constructor(
     val categories: StateFlow<Resource<GamesModel>> get() = _categories
 
     fun fetchGameCategories() {
-        // Launch the fetch in the viewModelScope
         viewModelScope.launch {
-            // Collect the flow from the use case and emit it to the _categories StateFlow
             getGamesCategoriesUseCase().collect { resource ->
 
                 when (resource) {
                     is Resource.Loading -> {
-                        // Show loading spinner
                     }
                     is Resource.Success -> {
-                        // Display the fetched data
                         _categories.value = resource
                     }
                     is Resource.Failure -> {
-                        // Show error message
                     }
                 }
             }

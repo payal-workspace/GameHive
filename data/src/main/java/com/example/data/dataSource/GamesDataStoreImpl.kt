@@ -1,19 +1,19 @@
 package com.example.data.dataSource
 
+import com.example.data.R
 import com.example.data.model.GamesResponse
 import com.example.data.model.GamesResponseItem
-import javax.inject.Inject
 
 
 class GamesDataStoreImpl  {
 
-    private val gameListsData = GamesResponse(
+    private val gameListsData = GamesResponse("", R.drawable.baking_powder,
         listOf(
-            GamesResponseItem("Item 3", "Description 3"),
-            GamesResponseItem("Item 4", "Description 4")
+            GamesResponseItem( "Description 3"),
+            GamesResponseItem("Description 4")
         )
     )
-    suspend fun getListFirst(): GamesResponse {
+   suspend fun getGameListsData(): GamesResponse {
         return gameListsData
     }
 
