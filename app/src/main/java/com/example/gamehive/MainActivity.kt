@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
                     }
                     is Resource.Success -> {
                         resource.data
-                        resource.data.items?.forEach {
-                            Log.d("Data Source ", it.game_title)
+                        resource.data.data?.forEach {
+                            Log.d("Data Source ", it.name)
                         }
                     }
                     is Resource.Failure -> {
