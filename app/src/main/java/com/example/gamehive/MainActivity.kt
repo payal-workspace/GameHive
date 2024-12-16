@@ -6,12 +6,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.core.common.utils.Resource
-import com.example.presentation.viewModel.viewModel.GamesCatViewModel
+import com.example.presentation.viewModel.viewModel.GameGenreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel: GamesCatViewModel by viewModels()
+    private val viewModel: GameGenreViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

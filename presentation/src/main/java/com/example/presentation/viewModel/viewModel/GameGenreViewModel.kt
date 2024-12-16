@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GamesCatViewModel @Inject constructor(
+class GameGenreViewModel @Inject constructor(
     private val getGamesCategoriesUseCase: GetGameCategoriesUseCase
 ) : ViewModel() {
 

@@ -9,6 +9,7 @@ import javax.inject.Inject
 class GameRepositoryImpl @Inject constructor(
     private val gameDataSource: GamesDataStoreImpl
 ) : GameRepository {
+
     override suspend fun getDetail(): Resource<GamesResponse> {
         return try {
             val response = gameDataSource.getGameListsData()

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">GameHive</string>
+    <string name="floating_button_description">Bottom Sheet UI</string>
+    <string name="game_genre_title">Game Title</string>
+    <string name="game_genre_text">Game Genre</string>
 </resources>
