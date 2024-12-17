@@ -1,4 +1,4 @@
-package com.example.presentation.viewModel.viewModel.base
+package com.example.presentation.base
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint

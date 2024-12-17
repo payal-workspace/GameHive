@@ -6,7 +6,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.core.common.utils.Resource
-import com.example.presentation.viewModel.viewModel.GameGenreViewModel
+import com.example.presentation.main.GameGenreViewModel
+import com.example.presentation.viewModel.viewModel.GamesCatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,8 +25,8 @@ class MainActivity : AppCompatActivity() {
                     }
                     is Resource.Success -> {
                         resource.data
-                        resource.data.items?.forEach {
-                            Log.d("Data Source ", it.game_title)
+                        resource.data.data?.forEach {
+                            Log.d("Data Source ", it.name)
                         }
                     }
                     is Resource.Failure -> {
