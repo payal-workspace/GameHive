@@ -1,6 +1,6 @@
 package com.example.data.di
 
-import com.example.data.dataSource.GamesDataStoreImpl
+import com.example.data.dataSource.SportsTable
 import com.example.data.repository.GameRepository
 import com.example.data.repository.GameRepositoryImpl
 import dagger.Module
@@ -16,7 +16,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideHomeRepository(
-        dataSource: GamesDataStoreImpl
+        dataSource: SportsTable
     ): GameRepository = GameRepositoryImpl(
         dataSource
     )

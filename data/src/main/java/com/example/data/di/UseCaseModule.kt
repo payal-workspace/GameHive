@@ -3,8 +3,8 @@ package com.example.data.di
 import com.example.core.common.di.IoDispatcher
 import com.example.data.mapper.CategoriesDomainDataMapper
 import com.example.data.repository.GameRepository
-import com.example.data.usecase.GetGamesCategoriesUseCaseImp
-import com.example.domain.usecase.GetGameCategoriesUseCase
+import com.example.data.usecase.GetSportsCategoriesUseCaseImp
+import com.example.domain.usecase.GetSportsCategoriesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ object UseCaseModule {
         gameRepository: GameRepository,
         categoriesToDomainDataMapper: CategoriesDomainDataMapper,
         @IoDispatcher dispatcher: CoroutineDispatcher
-    ): GetGameCategoriesUseCase = GetGamesCategoriesUseCaseImp(
+    ): GetSportsCategoriesUseCase = GetSportsCategoriesUseCaseImp(
         gameRepository,
         categoriesToDomainDataMapper,
         dispatcher

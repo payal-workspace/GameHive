@@ -1,38 +1,38 @@
 package com.example.data.mapper
 
 import com.example.core.common.extensions.DataToDomainModelMapper
-import com.example.data.model.GamesResponse
-import com.example.data.model.GamesResponseData
-import com.example.data.model.GamesResponseItem
-import com.example.domain.model.GamesItemModel
-import com.example.domain.model.GamesModel
-import com.example.domain.model.GamesModelData
+import com.example.data.model.SportsCategoryData
+import com.example.data.model.SportsCategoryEntity
+import com.example.data.model.SportsCategoryLists
+import com.example.domain.model.SportsModelLists
+import com.example.domain.model.SportsModel
+import com.example.domain.model.SportsModelData
 import javax.inject.Inject
 
 class CategoriesDomainDataMapper @Inject constructor() :
-    DataToDomainModelMapper<GamesResponse, GamesModel> {
-    override fun mapToDomainModel(responseModel: GamesResponse?): GamesModel {
+    DataToDomainModelMapper<SportsCategoryEntity, SportsModel> {
+    override fun mapToDomainModel(responseModel: SportsCategoryEntity?): SportsModel {
         val detailResponse = requireNotNull(responseModel)
-        return GamesModel(
+        return SportsModel(
             data = dataToDomainModel(detailResponse.data),
 
         )
     }
 
-    private fun dataToDomainModel(gameTitles: List<GamesResponseData>?): List<GamesModelData>? {
+    private fun dataToDomainModel(gameTitles: List<SportsCategoryData>?): List<SportsModelData>? {
         return gameTitles?.map {
-            GamesModelData(
-                name = it.name,
-                gamePosterImage = it.gamePosterImage ,
-                items = dataToDomainModelItem(it.items)
+            SportsModelData(
+                name = it.sports_type,
+                gamePosterImage = it.sports_type_image ,
+                items = dataToDomainModelItem(it.sports_type_items)
             )
         } ?: emptyList()
     }
 
-    private fun dataToDomainModelItem(gameTitles: List<GamesResponseItem>?): List<GamesItemModel>? {
+    private fun dataToDomainModelItem(gameTitles: List<SportsCategoryLists>?): List<SportsModelLists>? {
         return gameTitles?.map {
-            GamesItemModel(
-                game_title = it.game_title
+            SportsModelLists(
+                game_title = it.sports_types_games
             )
         } ?: emptyList()
     }

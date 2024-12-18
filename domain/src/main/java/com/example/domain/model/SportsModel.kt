@@ -3,15 +3,15 @@ package com.example.domain.model
 import androidx.annotation.DrawableRes
 import com.example.core.common.model.DomainModel
 
-data class GamesModel(val data : List<GamesModelData>?):DomainModel
+data class SportsModel(val data : List<SportsModelData>?):DomainModel
 
-data class GamesModelData(
+data class SportsModelData(
     val name:String,
     @DrawableRes
     val gamePosterImage:Int,
-    val items: List<GamesItemModel>?): DomainModel
+    val items: List<SportsModelLists>?): DomainModel
 
 
-data class GamesItemModel(
+data class SportsModelLists(
     val game_title: String
 ): DomainModel

@@ -2,4 +2,6 @@
     <string name="floating_button_description">Bottom Sheet UI</string>
     <string name="game_genre_title">Game Title</string>
     <string name="game_genre_text">Game Genre</string>
+    <string name="game_poster">Game Poster</string>
+    <string name="top_characters">Top Characters</string>
 </resources>

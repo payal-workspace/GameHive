@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "GameHive"
+rootProject.name = "SportsHive"
 include(":app")
 include(":data")
 include(":domain")
