@@ -22,6 +22,7 @@ class GameActivity : ComponentActivity() {
             GameHiveTheme {
                 NavHost(navController = navController, startDestination = "Main") {
                     composable("home") {
+                        GameMainScreen()
                     }
                 }
                 /*Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
