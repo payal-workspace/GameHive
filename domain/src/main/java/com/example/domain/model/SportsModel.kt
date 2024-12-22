@@ -13,5 +13,7 @@ data class SportsModelData(
 
 
 data class SportsModelLists(
+    @DrawableRes
+    val img_sports_type_item:Int,
     val game_title: String
 ): DomainModel

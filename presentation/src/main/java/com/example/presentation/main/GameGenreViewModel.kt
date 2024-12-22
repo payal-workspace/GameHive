@@ -1,6 +1,5 @@
 package com.example.presentation.main
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.common.utils.Resource
 import com.example.domain.model.SportsModel
@@ -13,11 +12,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class GameGenreViewModel @Inject constructor(
@@ -46,36 +44,29 @@ class GameGenreViewModel @Inject constructor(
         fetchSportsCategories()
     }
 
-    fun onSearchQueryChanged(query: String) {
-        _searchQuery.value = query
-        filterCategories()
-    }
-
-    private fun fetchSportsCategories() {
-        launchWithState(
-            block = { getSportsCategoriesUseCase().first() },
-            onSuccess = { resource ->
-                _sportsCategories.emit(resource)
-                if (resource is Resource.Success) {
-                    val categories = resource.data.data.orEmpty()
-                    _filteredCategories.emit(categories)
-                    val allSubCategories = categories.flatMap { it.items.orEmpty() }
-                    _sportsCategoriesLists.emit(allSubCategories)
-                }
+    private fun fetchSportsCategories() = launchWithState(
+        block = { getSportsCategoriesUseCase().first() },
+        onSuccess = { resource ->
+            _sportsCategories.emit(resource)
+            if (resource is Resource.Success) {
+                val categories = resource.data.data.orEmpty()
+                _filteredCategories.emit(categories)
+                updateCategoryItems(0)
             }
-        )
+        }
+    )
+
+    fun updateCategoryItems(pageIndex: Int) {
+        val items = filteredCategories.value.getOrNull(pageIndex)?.items.orEmpty()
+        _sportsCategoriesLists.value = items
+        _searchQuery.value = ""
     }
 
-    private fun filterCategories() {
-        val query = _searchQuery.value.lowercase()
-        val categories = (sportsCategories.value as? Resource.Success)?.data?.data.orEmpty()
-
-        _filteredCategories.value = categories.filter { category ->
-            category.name.lowercase().contains(query) ||
-                    category.items.orEmpty().any { item ->
-                        item.game_title.lowercase().contains(query)
-                    }
-        }
+    fun onSearchQueryChanged(query: String, pageIndex: Int) {
+        _searchQuery.value = query
+        val items = filteredCategories.value.getOrNull(pageIndex)?.items.orEmpty()
+        _sportsCategoriesLists.value = if (query.isBlank()) items
+        else items.filter { it.game_title.contains(query, ignoreCase = true) }
     }
 
     fun showBottomSheet() = viewModelScope.launch {
@@ -84,10 +75,11 @@ class GameGenreViewModel @Inject constructor(
     }
 
     private fun calculateTopCharacters() {
-        val characterCount = _filteredCategories.value
-            .flatMap { category ->
-                category.items.orEmpty().flatMap { it.game_title.lowercase().toList() }
-            }
+        val currentPageIndex = filteredCategories.value.indexOfFirst { it.items == _sportsCategoriesLists.value }
+        val itemsOnCurrentPage = filteredCategories.value.getOrNull(currentPageIndex)?.items.orEmpty()
+
+        val characterCount = itemsOnCurrentPage
+            .flatMap { it.game_title.toCharArray().toList() }
             .groupingBy { it }
             .eachCount()
             .entries

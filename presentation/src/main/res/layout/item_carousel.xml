@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:paddingStart="@dimen/padding_20dp"
+    android:paddingEnd="@dimen/padding_20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:cardCornerRadius="@dimen/padding_20dp"
+        android:layout_margin="@dimen/margin_small">
+
+        <ImageView
+            android:id="@+id/gameImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_big_xxl"
+            android:contentDescription="@string/game_poster" />
+    </androidx.cardview.widget.CardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+

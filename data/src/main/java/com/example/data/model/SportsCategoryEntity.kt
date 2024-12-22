@@ -10,10 +10,12 @@ data class SportsCategoryEntity(
 data class SportsCategoryData(
     val sports_type:String,
     @DrawableRes
-    val sports_type_image:Int,
+    val img_sports_category:Int,
     val sports_type_items: List<SportsCategoryLists>?): CategoriesEntity
 
 
 data class SportsCategoryLists(
+    @DrawableRes
+    val img_sports_type_item:Int,
     val sports_types_games: String
 ): CategoriesEntity

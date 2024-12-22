@@ -11,39 +11,50 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.model.SportsModelData
 import com.example.presentation.R
+import com.example.presentation.databinding.ItemCarouselBinding
 
-class CarouselAdapter :
-    ListAdapter<SportsModelData, CarouselAdapter.CarouselViewHolder>(GameDiffCallback()) {
+class CarouselAdapter : RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
 
-    inner class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val gameImage: ImageView = itemView.findViewById(R.id.gameImage)
-        private val gameTitle: TextView = itemView.findViewById(R.id.gameTitle)
+    private var categories = listOf<SportsModelData>()
 
-        fun bind(game: SportsModelData) {
-            gameTitle.text = game.name
-            gameImage.setImageResource(game.gamePosterImage)
+    fun submitList(newCategories: List<SportsModelData>) {
+        val diffResult = DiffUtil.calculateDiff(CarouselDiffCallback(categories, newCategories))
+        categories = newCategories
+        diffResult.dispatchUpdatesTo(this)
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemCarouselBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = categories[position]
+        holder.bind(item)
+    }
+
+    class ViewHolder(private val binding: ItemCarouselBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: SportsModelData) {
+            binding.gameImage.setBackgroundResource(item.gamePosterImage)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_game_genre, parent, false)
-        return CarouselViewHolder(view)
+    class CarouselDiffCallback(
+        private val oldList: List<SportsModelData>,
+        private val newList: List<SportsModelData>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = oldList.size
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].name == newList[newItemPosition].name
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
     }
 
-    override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
+    override fun getItemCount(): Int = categories.size
 }
 
-class GameDiffCallback : DiffUtil.ItemCallback<SportsModelData>() {
-    override fun areItemsTheSame(oldItem: SportsModelData, newItem: SportsModelData): Boolean {
-        return oldItem.name == newItem.name
-    }
-
-    override fun areContentsTheSame(oldItem: SportsModelData, newItem: SportsModelData): Boolean {
-        return oldItem == newItem
-    }
-}
 
 

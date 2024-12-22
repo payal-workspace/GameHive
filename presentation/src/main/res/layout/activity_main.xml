@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,7 +10,7 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
@@ -18,13 +19,17 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/windowBackground"
             android:fitsSystemWindows="true"
+            android:minHeight="60dp"
+            app:contentScrim="@color/windowBackground"
             app:layout_scrollFlags="scroll">
 
             <LinearLayout
@@ -37,6 +42,7 @@
                     android:id="@+id/carouselView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/padding_20dp"
                     android:layout_weight="1" />
 
                 <com.google.android.material.tabs.TabLayout
@@ -44,21 +50,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/padding_10dp"
+                    android:background="@color/transparent"
                     android:minHeight="?attr/actionBarSize"
                     app:tabBackground="@drawable/carousel_selector_indicator"
                     app:tabGravity="center"
-                    app:tabIndicatorHeight="0dp" />
+                    app:tabIndicatorHeight="@dimen/padding_5dp" />
 
             </LinearLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
+            android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="@dimen/padding_30dp"
             android:background="@drawable/bg_search_edit_text"
             android:iconifiedByDefault="false"
             app:iconifiedByDefault="false"
@@ -66,36 +73,24 @@
             app:queryHint="Search" />
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchBar"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sportsCategoryList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:queryHint="Search games..."/>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/padding_40dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sportsCategoryList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:padding="8dp"
-            tools:listitem="@layout/games_title_item" />
-    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabShowBottomSheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/padding_40dp"
+        android:src="@android:drawable/ic_dialog_email"
         android:contentDescription="@string/floating_button_description"
-        android:src="@android:drawable/ic_dialog_email"/>
+        app:backgroundTint="@color/colorAccent"
+        app:layout_anchor="@id/sportsCategoryList"
+        app:layout_anchorGravity="bottom|end" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

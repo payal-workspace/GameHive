@@ -9,108 +9,136 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.example.presentation.R
 import com.example.presentation.adapters.CarouselAdapter
-import com.example.presentation.adapters.SportsCategoriesItemsAdapter
+import com.example.presentation.adapters.SportsCategoryItemAdapter
 import com.example.presentation.base.BaseActivity
 import com.example.presentation.base.TopCharacterBottomSheetFragment
 import com.example.presentation.databinding.ActivityMainBinding
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class GameMainActivity : BaseActivity<GameGenreViewModel, ActivityMainBinding>() {
+    @AndroidEntryPoint
+    class GameMainActivity : BaseActivity<GameGenreViewModel, ActivityMainBinding>() {
 
-    private lateinit var sportsAdapter: CarouselAdapter
-    private lateinit var sportsCategoryItemAdapter: SportsCategoriesItemsAdapter
+        override val viewModel: GameGenreViewModel by viewModels()
 
-    override val viewModel: GameGenreViewModel by viewModels()
+        private val sportsAdapter by lazy { CarouselAdapter() }
+        private val sportsCategoryItemAdapter by lazy { SportsCategoryItemAdapter() }
 
-    override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
+        override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initUI()
-        observeViewModel()
-    }
-
-    private fun initUI() {
-        sportsAdapter = CarouselAdapter().also {
-            binding.carouselView.adapter = it
-        }
-        binding.searchBar.setOnQueryTextListener(searchTextListener)
-        binding.fabShowBottomSheet.setOnClickListener { viewModel.showBottomSheet() }
-
-
-        binding.sportsCategoryList.layoutManager = LinearLayoutManager(this@GameMainActivity)
-        sportsCategoryItemAdapter = SportsCategoriesItemsAdapter().also {
-            binding.sportsCategoryList.adapter = it
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setupUI()
+            observeViewModel()
         }
 
-    }
-
-    private val searchTextListener = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            binding.searchBar.clearFocus()
-            return true
+        private fun setupUI() {
+            setupAdapters()
+            setupViewPagerWithTabLayout()
+            setupListeners()
+            setupRecyclerViewScrollListener()
         }
 
-        override fun onQueryTextChange(newText: String?): Boolean {
-            newText?.let { viewModel.onSearchQueryChanged(newText) }
-            return true
-        }
-
-    }
-
-    private fun observeViewModel() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { observeFilteredCategories() }
-                launch { sportsCategoryItemsLists() }
-                launch { observeLoadingState() }
-                launch { observeErrorState() }
-                launch { observeBottomSheetTrigger() }
+        private fun setupAdapters() {
+            binding.sportsCategoryList.apply {
+                adapter = sportsCategoryItemAdapter
+                layoutManager = LinearLayoutManager(this@GameMainActivity)
             }
         }
-    }
 
-    private suspend fun observeFilteredCategories() {
-        viewModel.filteredCategories.collect { categories ->
-            sportsAdapter.submitList(categories)
+        private fun setupViewPagerWithTabLayout() {
+            binding.carouselView.adapter = sportsAdapter
+            TabLayoutMediator(binding.indicator, binding.carouselView) { _, _ -> }.attach()
         }
 
-    }
-    private suspend fun sportsCategoryItemsLists(){
-        viewModel.sportsCategoriesLists.collect { sportsLists ->
-            sportsCategoryItemAdapter.submitList(sportsLists)
+        private fun setupRecyclerViewScrollListener() {
+            binding.sportsCategoryList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val appBarLayout = findViewById<AppBarLayout>(R.id.app_bar)
+                    val isRecyclerViewScrolled = (dy > 0)
+                    if (isRecyclerViewScrolled) {
+                        appBarLayout.setExpanded(false, true)
+                    } else {
+                        appBarLayout.setExpanded(true, true)
+                    }
+                }
+            })
+        }
+
+        private fun setupListeners() {
+            binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean = true
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    val currentPage = binding.carouselView.currentItem
+                    viewModel.onSearchQueryChanged(newText.orEmpty(), currentPage)
+                    return true
+                }
+            })
+
+            binding.fabShowBottomSheet.setOnClickListener { viewModel.showBottomSheet() }
+
+            binding.carouselView.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    viewModel.updateCategoryItems(position)
+                    binding.searchBar.setQuery("", false)
+                    binding.searchBar.clearFocus()
+                }
+            })
+        }
+
+        private fun observeViewModel() {
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    launch {
+                        viewModel.filteredCategories.collectLatest { categories ->
+                            sportsAdapter.submitList(categories)
+                        }
+                    }
+                    launch {
+                        viewModel.sportsCategoriesLists.collectLatest { items ->
+                            sportsCategoryItemAdapter.submitList(items)
+                        }
+                    }
+                    launch {
+                        viewModel.loading.collectLatest { isLoading ->
+                            binding.progressBar.isVisible = isLoading
+                        }
+                    }
+                    launch {
+                        viewModel.error.collectLatest { error ->
+                            error.message?.let { showToast(it) }
+                        }
+                    }
+                    launch {
+                        viewModel.showBottomSheet.collectLatest { shouldShow ->
+                            if (shouldShow) showStatisticsBottomSheet()
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun showToast(message: String) {
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        }
+
+        private fun showStatisticsBottomSheet() {
+            TopCharacterBottomSheetFragment.newInstance()
+                .show(supportFragmentManager, "StatisticsBottomSheet")
         }
     }
 
-    private suspend fun observeLoadingState() {
-        viewModel.loading.collect { isLoading ->
-            binding.progressBar.isVisible = isLoading
-        }
-    }
 
-    private suspend fun observeErrorState() {
-        viewModel.error.collect { error ->
-            showError(error.message)
-        }
-    }
-
-    private suspend fun observeBottomSheetTrigger() {
-        viewModel.showBottomSheet.collect { shouldShow ->
-            if (shouldShow) showStatisticsBottomSheet()
-        }
-    }
-
-    private fun showError(message: String?) {
-        Toast.makeText(this, message ?: "Something went wrong", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showStatisticsBottomSheet() {
-        val bottomSheet = TopCharacterBottomSheetFragment.newInstance()
-        bottomSheet.show(supportFragmentManager, "StatisticsBottomSheet")
-    }
-}
 
 

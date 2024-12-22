@@ -23,7 +23,7 @@ class CategoriesDomainDataMapper @Inject constructor() :
         return gameTitles?.map {
             SportsModelData(
                 name = it.sports_type,
-                gamePosterImage = it.sports_type_image ,
+                gamePosterImage = it.img_sports_category ,
                 items = dataToDomainModelItem(it.sports_type_items)
             )
         } ?: emptyList()
@@ -32,9 +32,11 @@ class CategoriesDomainDataMapper @Inject constructor() :
     private fun dataToDomainModelItem(gameTitles: List<SportsCategoryLists>?): List<SportsModelLists>? {
         return gameTitles?.map {
             SportsModelLists(
+                img_sports_type_item = it.img_sports_type_item,
                 game_title = it.sports_types_games
             )
         } ?: emptyList()
     }
 
 }
+
