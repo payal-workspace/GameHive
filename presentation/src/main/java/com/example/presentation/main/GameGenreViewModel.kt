@@ -65,16 +65,16 @@ class GameGenreViewModel @Inject constructor(
 
     fun updateCategoryItems(pageIndex: Int) {
         if(filteredCategories.value.isEmpty()) return
-        val items = filteredCategories.value.getOrNull(pageIndex)?.items.orEmpty()
+        val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
         _sportsCategoriesLists.value = items
         _searchQuery.value = ""
     }
 
     fun onSearchQueryChanged(query: String, pageIndex: Int) {
         _searchQuery.value = query
-        val items = filteredCategories.value.getOrNull(pageIndex)?.items.orEmpty()
+        val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
         _sportsCategoriesLists.value = if (query.isBlank()) items
-        else items.filter { it.game_title.contains(query, ignoreCase = true) }
+        else items.filter { it.sportsTitle.contains(query, ignoreCase = true) }
     }
 
     fun showBottomSheet() = viewModelScope.launch {
@@ -84,12 +84,12 @@ class GameGenreViewModel @Inject constructor(
 
     private fun calculateTopCharacters() {
         val currentPageIndex =
-            filteredCategories.value.indexOfFirst { it.items == _sportsCategoriesLists.value }
+            filteredCategories.value.indexOfFirst { it.sportsCategoryItem == _sportsCategoriesLists.value }
         val itemsOnCurrentPage =
-            filteredCategories.value.getOrNull(currentPageIndex)?.items.orEmpty()
+            filteredCategories.value.getOrNull(currentPageIndex)?.sportsCategoryItem.orEmpty()
 
         val characterCount = itemsOnCurrentPage
-            .flatMap { it.game_title.toCharArray().toList() }
+            .flatMap { it.sportsTitle.toCharArray().toList() }
             .groupingBy { it }
             .eachCount()
             .entries

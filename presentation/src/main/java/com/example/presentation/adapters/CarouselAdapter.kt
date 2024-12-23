@@ -33,7 +33,7 @@ class CarouselAdapter : RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: ItemCarouselBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SportsModelData) {
-            binding.gameImage.setBackgroundResource(item.gamePosterImage)
+            binding.gameImage.setBackgroundResource(item.sportsCategoryImageUrl)
         }
     }
 
@@ -45,7 +45,7 @@ class CarouselAdapter : RecyclerView.Adapter<CarouselAdapter.ViewHolder>() {
         override fun getNewListSize(): Int = newList.size
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].name == newList[newItemPosition].name
+            return oldList[oldItemPosition].sportsCategoryTitle == newList[newItemPosition].sportsCategoryTitle
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

@@ -28,14 +28,14 @@ class SportsCategoryItemAdapter : ListAdapter<SportsModelLists, SportsCategoryIt
 
     class ViewHolder(private val binding: GamesTitleItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SportsModelLists) {
-            binding.gameImage.setBackgroundResource(item.img_sports_type_item)
-            binding.tvCategoryName.text = item.game_title
+            binding.gameImage.setBackgroundResource(item.sportsImageUrl)
+            binding.tvCategoryName.text = item.sportsTitle
         }
     }
 
     class SportsCategoryDiffCallback : DiffUtil.ItemCallback<SportsModelLists>() {
         override fun areItemsTheSame(oldItem: SportsModelLists, newItem: SportsModelLists): Boolean {
-            return oldItem.game_title == newItem.game_title
+            return oldItem.sportsTitle == newItem.sportsTitle
         }
 
         override fun areContentsTheSame(oldItem: SportsModelLists, newItem: SportsModelLists): Boolean {

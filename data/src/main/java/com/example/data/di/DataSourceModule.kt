@@ -1,6 +1,6 @@
 package com.example.data.di
 
-import com.example.data.dataSource.SportsTable
+import com.example.data.dataSource.SportsTabel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,5 +12,5 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    fun provideDataSource() = SportsTable()
+    fun provideDataSource() = SportsTabel()
 }

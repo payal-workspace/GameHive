@@ -5,17 +5,18 @@ import com.example.core.common.model.CategoriesEntity
 
 data class SportsCategoryEntity(
     val data : List<SportsCategoryData>)
-: CategoriesEntity
+    : CategoriesEntity
 
 data class SportsCategoryData(
-    val sports_type:String,
+    val sportsCategoryTitle:String,
     @DrawableRes
-    val img_sports_category:Int,
-    val sports_type_items: List<SportsCategoryLists>?): CategoriesEntity
+    val sportsCategoryImageUrl:Int,
+    val sportsCategoryItem: List<SportsCategoryLists>?): CategoriesEntity
 
 
 data class SportsCategoryLists(
     @DrawableRes
-    val img_sports_type_item:Int,
-    val sports_types_games: String
+    val sportsImageUrl:Int,
+    val sportsTitle: String,
+    val sportsDescription: String
 ): CategoriesEntity
