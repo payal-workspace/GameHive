@@ -43,6 +43,8 @@ class GameGenreViewModel @Inject constructor(
         fetchSportsCategories()
     }
 
+
+
     fun fetchSportsCategories() = viewModelScope.launch {
         try {
             val resource = getSportsCategoriesUseCase().first()
@@ -61,9 +63,11 @@ class GameGenreViewModel @Inject constructor(
     }
 
     fun updateCategoryItems(pageIndex: Int) {
+        if (filteredCategories.value.isEmpty()) return
         val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
         _sportsCategoriesLists.value = items
         clearSearchQuery()
+
     }
 
     private fun clearSearchQuery(){

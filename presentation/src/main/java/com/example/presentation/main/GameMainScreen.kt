@@ -42,6 +42,7 @@ fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
     val searchQuery by viewModel.searchQuery.collectAsState()
 
     val pageIndex by remember { mutableIntStateOf(0) }
+
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = { categories.size }
