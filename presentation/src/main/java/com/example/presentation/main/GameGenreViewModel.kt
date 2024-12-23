@@ -2,9 +2,17 @@ package com.example.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.common.utils.Resource
+import com.example.domain.model.SportsModel
+import com.example.domain.model.SportsModelData
+import com.example.domain.model.SportsModelLists
+import com.example.domain.usecase.GetSportsCategoriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,64 +21,79 @@ class GameGenreViewModel @Inject constructor(
     private val getSportsCategoriesUseCase: GetSportsCategoriesUseCase
 ) : ViewModel() {
 
-    // StateFlow for UI states
-    private val _sportsCategoriesLists = MutableStateFlow<List<SportsModelLists>>(emptyList())
-    val sportsCategoriesLists: StateFlow<List<SportsModelLists>> = _sportsCategoriesLists
-
-    private val _filteredCategories = MutableStateFlow<List<SportsModelData>>(emptyList())
-    val filteredCategories: StateFlow<List<SportsModelData>> = _filteredCategories
-
-    private val _loading = MutableStateFlow(true)
-    val loading: StateFlow<Boolean> = _loading
+    private val _sportsCategories = MutableStateFlow<Resource<SportsModel>>(Resource.Loading)
+    val sportsCategories: StateFlow<Resource<SportsModel>> = _sportsCategories
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
-    private var allCategories: List<SportsModelData> = emptyList()
+    private val _filteredCategories = MutableStateFlow<List<SportsModelData>>(emptyList())
+    val filteredCategories: StateFlow<List<SportsModelData>> = _filteredCategories
+
+    private val _sportsCategoriesLists = MutableStateFlow<List<SportsModelLists>>(emptyList())
+    val sportsCategoriesLists: StateFlow<List<SportsModelLists>> = _sportsCategoriesLists
+
+    private val _showBottomSheet = MutableSharedFlow<Boolean>()
+    val showBottomSheet: SharedFlow<Boolean> = _showBottomSheet
+
+    private val _topCharacters = MutableStateFlow("No data available")
+    val topCharacters: StateFlow<String> = _topCharacters
 
     init {
-        fetchCategories()
+        fetchSportsCategories()
     }
 
-    private fun fetchCategories() {
-        viewModelScope.launch {
-            _loading.value = true
-            try {
-                // Simulate fetching data
-                val categories = getSportsCategoriesUseCase()
-                allCategories = categories
-                _filteredCategories.value = categories
-                _sportsCategoriesLists.value = categories.firstOrNull()?.sportsCategoryList ?: emptyList()
-            } catch (e: Exception) {
-                // Handle the error (e.g., log or show error state)
-            } finally {
-                _loading.value = false
-            }
+    private fun fetchSportsCategories() = viewModelScope.launch {
+        val resource = getSportsCategoriesUseCase().first()
+        _sportsCategories.emit(resource)
+
+        if (resource is Resource.Success) {
+            val categories = resource.data.data.orEmpty()
+            _filteredCategories.emit(categories)
+            updateCategoryItems(0)
         }
     }
 
-    fun onSearchQueryChanged(query: String, currentPageIndex: Int) {
+    fun updateCategoryItems(pageIndex: Int) {
+        val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
+        _sportsCategoriesLists.value = items
+        _searchQuery.value = ""
+    }
+
+    fun onSearchQueryChanged(query: String, pageIndex: Int) {
         _searchQuery.value = query
-        val filtered = if (query.isBlank()) {
-            allCategories
+        val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
+
+        _sportsCategoriesLists.value = if (query.isBlank()) {
+            items
         } else {
-            allCategories.filter { category ->
-                category.sportsCategoryList.any {
-                    it.game_title.contains(query, ignoreCase = true)
-                }
-            }
+            items.filter { it.sportsTitle.contains(query, ignoreCase = true) }
         }
-        _filteredCategories.value = filtered
-        updateCategoryItems(currentPageIndex)
     }
 
-    fun updateCategoryItems(currentPageIndex: Int) {
-        val selectedCategory = _filteredCategories.value.getOrNull(currentPageIndex)
-        _sportsCategoriesLists.value = selectedCategory?.sportsCategoryList ?: emptyList()
+    fun showBottomSheet() = viewModelScope.launch {
+        calculateTopCharacters()
+        _showBottomSheet.emit(true)
     }
 
-    fun showBottomSheet() {
-        // Logic to show a bottom sheet
+    private fun calculateTopCharacters() {
+        val currentPageIndex = filteredCategories.value.indexOfFirst {
+            it.sportsCategoryItem == _sportsCategoriesLists.value
+        }
+
+        val itemsOnCurrentPage = filteredCategories.value.getOrNull(currentPageIndex)?.sportsCategoryItem.orEmpty()
+
+        val characterCount = itemsOnCurrentPage
+            .flatMap { it.sportsTitle.lowercase().toList() }
+            .groupingBy { it }
+            .eachCount()
+            .entries
+            .sortedByDescending { it.value }
+            .take(3)
+            .joinToString("\n") { "${it.key} -> ${it.value}" }
+
+        _topCharacters.value = characterCount.ifEmpty { "No data available" }
     }
 }
+
 

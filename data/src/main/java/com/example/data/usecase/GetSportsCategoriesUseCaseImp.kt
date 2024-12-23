@@ -4,21 +4,21 @@ import com.example.core.common.di.IoDispatcher
 import com.example.core.common.utils.Resource
 import com.example.data.mapper.CategoriesDomainDataMapper
 import com.example.data.repository.GameRepository
-import com.example.domain.model.GamesModel
-import com.example.domain.usecase.GetGameCategoriesUseCase
+import com.example.domain.model.SportsModel
+import com.example.domain.usecase.GetSportsCategoriesUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetGamesCategoriesUseCaseImp @Inject constructor(
+class GetSportsCategoriesUseCaseImp @Inject constructor(
     private val getDetailRepository: GameRepository,
     private val detailMapper: CategoriesDomainDataMapper,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
-) : GetGameCategoriesUseCase {
+) : GetSportsCategoriesUseCase {
 
-    override suspend operator fun invoke(): Flow<Resource<GamesModel>> = flow {
+    override suspend operator fun invoke(): Flow<Resource<SportsModel>> = flow {
         try {
             when (val resource = getDetailRepository.getDetail()) {
 
