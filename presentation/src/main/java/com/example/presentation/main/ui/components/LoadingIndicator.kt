@@ -8,7 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.example.presentation.R
 
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier) {
@@ -16,11 +17,11 @@ fun LoadingIndicator(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding((dimensionResource(id = R.dimen.padding_16)))
     ) {
         CircularProgressIndicator(
             color = MaterialTheme.colorScheme.primary,
-            strokeWidth = 4.dp
+            strokeWidth = (dimensionResource(id = R.dimen.padding_4))
         )
     }
 }

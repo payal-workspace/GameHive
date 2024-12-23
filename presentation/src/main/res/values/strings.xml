@@ -4,4 +4,5 @@
     <string name="text_search_icon">Search Icon</string>
     <string name="text_carousel_image">Carousel Image</string>
     <string name="text_sports_item_image">Sports Item Image</string>
+    <string name="text_retry">Retry</string>
 </resources>

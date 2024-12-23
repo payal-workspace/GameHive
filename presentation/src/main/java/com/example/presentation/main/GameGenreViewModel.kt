@@ -43,14 +43,20 @@ class GameGenreViewModel @Inject constructor(
         fetchSportsCategories()
     }
 
-    private fun fetchSportsCategories() = viewModelScope.launch {
-        val resource = getSportsCategoriesUseCase().first()
-        _sportsCategories.emit(resource)
+    fun fetchSportsCategories() = viewModelScope.launch {
+        try {
+            val resource = getSportsCategoriesUseCase().first()
+            _sportsCategories.emit(resource)
 
-        if (resource is Resource.Success) {
-            val categories = resource.data.data.orEmpty()
-            _filteredCategories.emit(categories)
-            updateCategoryItems(0)
+            if (resource is Resource.Success) {
+                val categories = resource.data.data.orEmpty()
+                _filteredCategories.emit(categories)
+                updateCategoryItems(0)
+            } else if (resource is Resource.Failure) {
+                _sportsCategories.emit(Resource.Failure(resource.error))
+            }
+        } catch (exception: Exception) {
+            _sportsCategories.emit(Resource.Failure(exception))
         }
     }
 
@@ -63,6 +69,7 @@ class GameGenreViewModel @Inject constructor(
     private fun clearSearchQuery(){
         _searchQuery.value = ""
     }
+
     fun onSearchQueryChanged(query: String, pageIndex: Int) {
         _searchQuery.value = query
         val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()

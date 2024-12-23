@@ -14,14 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import com.example.presentation.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PageIndicatorRow(images: List<Int>, pagerState: PagerState) {
     Row(
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = dimensionResource(id = R.dimen.padding_8))
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
@@ -35,8 +36,8 @@ fun PageIndicatorRow(images: List<Int>, pagerState: PagerState) {
 fun PageIndicator(isActive: Boolean) {
     Box(
         modifier = Modifier
-            .padding(4.dp)
-            .size(8.dp)
+            .padding(dimensionResource(id = R.dimen.padding_4))
+            .size(dimensionResource(id = R.dimen.padding_8))
             .clip(CircleShape)
             .background(if (isActive) Color.Red else Color.Gray)
     )

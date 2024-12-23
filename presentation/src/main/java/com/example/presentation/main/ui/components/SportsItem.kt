@@ -27,6 +27,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.domain.model.SportsModelLists
 import com.example.presentation.R
 
@@ -85,11 +86,13 @@ fun SportsItemDetails(data: SportsModelLists) {
     ) {
         Text(
             text = data.sportsTitle,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            fontSize =  dimensionResource(id = R.dimen.text_item_description_title).value.sp
         )
         Text(
             text = data.sportsTitle,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            fontSize =  dimensionResource(id = R.dimen.text_item_description_size).value.sp
         )
     }
 }

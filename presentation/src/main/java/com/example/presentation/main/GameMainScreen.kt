@@ -2,6 +2,7 @@ package com.example.presentation.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -19,9 +20,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.core.common.utils.Resource
+import com.example.presentation.R
+import com.example.presentation.main.ui.components.ErrorView
 import com.example.presentation.main.ui.components.LoadingIndicator
 import com.example.presentation.main.ui.components.SearchBar
 import com.example.presentation.main.ui.components.SportsCategoryPager
@@ -40,7 +46,9 @@ fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
         initialPage = 0,
         pageCount = { categories.size }
     )
-
+    LaunchedEffect(searchQuery, pageIndex) {
+        viewModel.onSearchQueryChanged(searchQuery, pageIndex)
+    }
     LaunchedEffect(searchQuery, pageIndex) {
         viewModel.onSearchQueryChanged(searchQuery, pageIndex)
     }
@@ -54,44 +62,64 @@ fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                verticalArrangement = Arrangement.spacedBy(0.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp)
-            ) {
-                if (filteredImages.isEmpty()) {
-                    item {
-                        LoadingIndicator(
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                } else {
-                    item {
-                        SportsCategoryPager(
-                            images = filteredImages,
-                            pagerState = pagerState
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                    }
-                }
-                stickyHeader {
-                    SearchBar(
-                        queryState = searchQuery,
-                        onSearchTriggered = { newQuery ->
-                            viewModel.onSearchQueryChanged(newQuery, pagerState.currentPage)
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
+        val sportsCategories by viewModel.sportsCategories.collectAsState()
 
-                itemsIndexed(sublistItems) { _, category ->
-                    SportsItem(sportsData = category)
+        when (sportsCategories) {
+            is Resource.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    LoadingIndicator()
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            is Resource.Failure -> {
+                val errorMessage = (sportsCategories as Resource.Failure).error ?: "Something went wrong"
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    ErrorView(
+                        message = errorMessage.toString(),
+                        onRetry = { viewModel.fetchSportsCategories() }
+                    )
+                }
+            }
+            is Resource.Success -> {
+                Column(modifier = Modifier.padding(padding)) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                        verticalArrangement = Arrangement.spacedBy((dimensionResource(id = R.dimen.padding_0))),
+                        contentPadding = PaddingValues(horizontal = (dimensionResource(id = R.dimen.padding_16)))
+                    ) {
+                        if (filteredImages.isEmpty()) {
+                            item {
+                                LoadingIndicator(
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        } else {
+                            item {
+                                SportsCategoryPager(
+                                    images = filteredImages,
+                                    pagerState = pagerState
+                                )
+                                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_12)))
+                            }
+                        }
+                        stickyHeader {
+                            SearchBar(
+                                queryState = searchQuery,
+                                onSearchTriggered = { newQuery ->
+                                    viewModel.onSearchQueryChanged(newQuery, pagerState.currentPage)
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                        itemsIndexed(sublistItems) { _, category ->
+                            SportsItem(sportsData = category)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_16)))
+                }
+            }
         }
     }
+
 }
