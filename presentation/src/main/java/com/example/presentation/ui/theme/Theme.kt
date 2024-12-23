@@ -9,6 +9,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -22,15 +23,6 @@ private val LightColorScheme = lightColorScheme(
     secondary = PurpleGrey40,
     tertiary = Pink40
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
 
 @Composable
@@ -41,17 +33,23 @@ fun GameHiveTheme(
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) DarkColorScheme else LightColorScheme
         }
 
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+    val customColorsPalette =
+        if (darkTheme) OnDarkCustomColorsPalette
+        else OnLightCustomColorsPalette
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalCustomColorsPalette provides customColorsPalette
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.presentation.main
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +28,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.common.utils.Resource
+import com.example.domain.model.SportsModelData
+import com.example.domain.model.SportsModelLists
 import com.example.presentation.R
 import com.example.presentation.main.ui.components.ErrorView
 import com.example.presentation.main.ui.components.LoadingIndicator
@@ -33,12 +37,12 @@ import com.example.presentation.main.ui.components.SearchBar
 import com.example.presentation.main.ui.components.SportsCategoryPager
 import com.example.presentation.main.ui.components.SportsItem
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
 
     val categories by viewModel.filteredCategories.collectAsState()
-    val sublistItems by viewModel.sportsCategoriesLists.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
 
     val pageIndex by remember { mutableIntStateOf(0) }
@@ -47,9 +51,7 @@ fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
         initialPage = 0,
         pageCount = { categories.size }
     )
-    LaunchedEffect(searchQuery, pageIndex) {
-        viewModel.onSearchQueryChanged(searchQuery, pageIndex)
-    }
+
     LaunchedEffect(searchQuery, pageIndex) {
         viewModel.onSearchQueryChanged(searchQuery, pageIndex)
     }
@@ -59,6 +61,21 @@ fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
     }
     val filteredImages = categories.map { it.sportsCategoryImageUrl }
 
+
+
+    val filteredList = remember(pagerState.currentPage, searchQuery, categories) {
+        if (categories.isEmpty()) {
+            return@remember emptyList<SportsModelLists>()
+        }
+        val currentPageIndex = pagerState.currentPage.takeIf { it in categories.indices }
+        val currentItems = currentPageIndex?.let { categories[it].sportsCategoryItem } ?: emptyList()
+
+        if (searchQuery.isBlank()) {
+            currentItems
+        } else {
+            currentItems.filter { it.sportsTitle.contains(searchQuery, ignoreCase = true) }
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -113,7 +130,7 @@ fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
-                        itemsIndexed(sublistItems) { _, category ->
+                        itemsIndexed(filteredList) { _, category ->
                             SportsItem(sportsData = category)
                         }
                     }

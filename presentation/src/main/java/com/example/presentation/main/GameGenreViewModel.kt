@@ -74,10 +74,10 @@ class GameGenreViewModel @Inject constructor(
         _searchQuery.value = ""
     }
 
+
     fun onSearchQueryChanged(query: String, pageIndex: Int) {
         _searchQuery.value = query
         val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
-
         _sportsCategoriesLists.value = if (query.isBlank()) {
             items
         } else {
