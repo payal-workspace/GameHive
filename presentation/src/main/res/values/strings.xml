@@ -1,4 +1,7 @@
 <resources>
     <string name="title_activity_game">GameActivity</string>
-    <string name="number_of_ingredients">Number of Ingredients</string>
+    <string name="text_clear_input">Clear Input</string>
+    <string name="text_search_icon">Search Icon</string>
+    <string name="text_carousel_image">Carousel Image</string>
+    <string name="text_sports_item_image">Sports Item Image</string>
 </resources>

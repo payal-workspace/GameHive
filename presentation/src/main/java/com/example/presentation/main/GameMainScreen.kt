@@ -17,39 +17,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.presentation.main.ui.components.ImageCarousel
 import com.example.presentation.main.ui.components.LoadingIndicator
 import com.example.presentation.main.ui.components.SearchBar
+import com.example.presentation.main.ui.components.SportsCategoryPager
 import com.example.presentation.main.ui.components.SportsItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GameMainScreen() {
-    val viewModel: GameGenreViewModel = hiltViewModel()
-    val topCharacters by viewModel.topCharacters.collectAsState()
+fun GameMainScreen(viewModel: GameGenreViewModel = hiltViewModel()) {
 
     val categories by viewModel.filteredCategories.collectAsState()
     val sublistItems by viewModel.sportsCategoriesLists.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
 
-    val showBottomSheet by viewModel.showBottomSheet.collectAsState(initial = false)
-    var pageIndex by remember { mutableStateOf(0) }
-    val scope = rememberCoroutineScope()
-
-    LaunchedEffect(searchQuery, pageIndex) {
-        viewModel.onSearchQueryChanged(searchQuery, pageIndex)
-    }
+    val pageIndex by remember { mutableIntStateOf(0) }
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = { categories.size }
     )
+
+    LaunchedEffect(searchQuery, pageIndex) {
+        viewModel.onSearchQueryChanged(searchQuery, pageIndex)
+    }
+
     LaunchedEffect(pagerState.currentPage) {
         viewModel.updateCategoryItems(pagerState.currentPage)
     }
@@ -75,14 +70,13 @@ fun GameMainScreen() {
                     }
                 } else {
                     item {
-                        ImageCarousel(
+                        SportsCategoryPager(
                             images = filteredImages,
                             pagerState = pagerState
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
-
                 stickyHeader {
                     SearchBar(
                         queryState = searchQuery,
@@ -98,7 +92,6 @@ fun GameMainScreen() {
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-
         }
     }
 }

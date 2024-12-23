@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.domain.model.SportsModelLists
 import com.example.presentation.R
@@ -70,7 +71,7 @@ fun SportsItemImage(data: SportsModelLists) {
             .aspectRatio(1f)
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.padding_10))),
         painter = painterResource(id = data.sportsImageUrl),
-        contentDescription = "Sport Item Image",
+        contentDescription = stringResource(id = R.string.text_sports_item_image),
         contentScale = ContentScale.FillBounds
     )
 }

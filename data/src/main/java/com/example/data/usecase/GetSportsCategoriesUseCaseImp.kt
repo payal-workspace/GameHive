@@ -21,7 +21,6 @@ class GetSportsCategoriesUseCaseImp @Inject constructor(
     override suspend operator fun invoke(): Flow<Resource<SportsModel>> = flow {
         try {
             when (val resource = getDetailRepository.getDetail()) {
-
                 Resource.Loading -> {
                     emit(Resource.Loading)
                 }

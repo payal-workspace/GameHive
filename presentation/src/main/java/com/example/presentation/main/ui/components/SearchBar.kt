@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,14 +59,13 @@ fun SearchBar(
                         color = Color.Black,
                         fontSize = 15.sp
                     ),
-
                     maxLines = 1
                 )
             },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    contentDescription = "Search Icon",
+                    contentDescription = stringResource(id = R.string.text_search_icon),
                     tint = Color.Gray
                 )
             },
@@ -73,7 +73,7 @@ fun SearchBar(
                 if (queryState.isNotEmpty()) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "Clear Input",
+                        contentDescription = stringResource(id = R.string.text_clear_input),
                         modifier = Modifier.clickable {
                             onSearchTriggered("")
                             keyboardController?.hide()
@@ -102,7 +102,7 @@ fun SearchBar(
 @Composable
 fun PreviewSearchBar() {
     SearchBar(
-        queryState = "cheese",
+        queryState = "sports",
         onSearchTriggered = {}
     )
 }

@@ -57,9 +57,12 @@ class GameGenreViewModel @Inject constructor(
     fun updateCategoryItems(pageIndex: Int) {
         val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
         _sportsCategoriesLists.value = items
-        _searchQuery.value = ""
+        clearSearchQuery()
     }
 
+    private fun clearSearchQuery(){
+        _searchQuery.value = ""
+    }
     fun onSearchQueryChanged(query: String, pageIndex: Int) {
         _searchQuery.value = query
         val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
