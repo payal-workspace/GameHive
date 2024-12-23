@@ -48,15 +48,23 @@ class GameGenreViewModel @Inject constructor(
         block = { getSportsCategoriesUseCase().first() },
         onSuccess = { resource ->
             _sportsCategories.emit(resource)
-            if (resource is Resource.Success) {
-                val categories = resource.data.data.orEmpty()
-                _filteredCategories.emit(categories)
-                updateCategoryItems(0)
+            try {
+                if (resource is Resource.Success) {
+                    val categories = resource.data.data.orEmpty()
+                    _filteredCategories.emit(categories)
+                    updateCategoryItems(0)
+                } else if (resource is Resource.Failure) {
+                    _sportsCategories.emit(Resource.Failure(resource.error))
+                }
+            } catch (exception: Exception) {
+                _sportsCategories.emit(Resource.Failure(exception))
             }
+
         }
     )
 
     fun updateCategoryItems(pageIndex: Int) {
+        if(filteredCategories.value.isEmpty()) return
         val items = filteredCategories.value.getOrNull(pageIndex)?.items.orEmpty()
         _sportsCategoriesLists.value = items
         _searchQuery.value = ""
@@ -75,8 +83,10 @@ class GameGenreViewModel @Inject constructor(
     }
 
     private fun calculateTopCharacters() {
-        val currentPageIndex = filteredCategories.value.indexOfFirst { it.items == _sportsCategoriesLists.value }
-        val itemsOnCurrentPage = filteredCategories.value.getOrNull(currentPageIndex)?.items.orEmpty()
+        val currentPageIndex =
+            filteredCategories.value.indexOfFirst { it.items == _sportsCategoriesLists.value }
+        val itemsOnCurrentPage =
+            filteredCategories.value.getOrNull(currentPageIndex)?.items.orEmpty()
 
         val characterCount = itemsOnCurrentPage
             .flatMap { it.game_title.toCharArray().toList() }

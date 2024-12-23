@@ -10,41 +10,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-/*abstract class BaseViewModel : ViewModel() {
-
-    // Loading state tracking
-    private val _loading = MutableStateFlow(false)
-    val loading: StateFlow<Boolean> = _loading.asStateFlow()
-
-    // Error state tracking
-    private val _error = MutableSharedFlow<Throwable>()
-    val error: SharedFlow<Throwable> = _error.asSharedFlow()
-
-    // Function to handle loading and errors during API calls
-    protected fun <T> launchWithState(
-        block: suspend () -> T,
-        onSuccess: suspend (T) -> Unit,
-        onError: (Throwable) -> Unit = { handleError(it) }
-    ) {
-        viewModelScope.launch {
-            _loading.emit(true)
-            try {
-                val result = block()
-                onSuccess(result)
-            } catch (e: Throwable) {
-                onError(e)
-            } finally {
-                _loading.emit(false)
-            }
-        }
-    }
-
-    protected fun handleError(error: Throwable) {
-        viewModelScope.launch {
-            _error.emit(error)
-        }
-    }
-}*/
 abstract class BaseViewModel : ViewModel() {
 
     private val _loading = MutableStateFlow(false)
@@ -60,7 +25,7 @@ abstract class BaseViewModel : ViewModel() {
         showLoading: Boolean = true
     ) {
         viewModelScope.launch {
-            if (showLoading) _loading.emit(true) // Show loading if required
+            if (showLoading) _loading.emit(true)
             try {
                 val result = block()
                 onSuccess(result)
