@@ -26,6 +26,7 @@ import kotlinx.coroutines.launch
     @AndroidEntryPoint
     class GameMainActivity : BaseActivity<GameGenreViewModel, ActivityMainBinding>() {
 
+
         override val viewModel: GameGenreViewModel by viewModels()
 
         private val sportsAdapter by lazy { CarouselAdapter() }
@@ -33,6 +34,9 @@ import kotlinx.coroutines.launch
 
         override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
+        companion object{
+            const val TAG_BOTTOMSHEET = "StatisticsBottomSheet"
+        }
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setupUI()
@@ -135,7 +139,7 @@ import kotlinx.coroutines.launch
 
         private fun showStatisticsBottomSheet() {
             TopCharacterBottomSheetFragment.newInstance()
-                .show(supportFragmentManager, "StatisticsBottomSheet")
+                .show(supportFragmentManager, TAG_BOTTOMSHEET)
         }
     }
 
