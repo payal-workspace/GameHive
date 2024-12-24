@@ -5,4 +5,6 @@
     <string name="text_carousel_image">Carousel Image</string>
     <string name="text_sports_item_image">Sports Item Image</string>
     <string name="text_retry">Retry</string>
+    <string name="top_characters">Top Characters</string>
+    <string name="open_bottomsheet">Open Bottomsheet</string>
 </resources>

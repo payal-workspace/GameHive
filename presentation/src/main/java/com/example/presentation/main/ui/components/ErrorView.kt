@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.presentation.R
 
 @Composable
-fun ErrorView(message: String, onRetry: () -> Unit) {
+fun ErrorView(message: Throwable, onRetry: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -26,7 +26,7 @@ fun ErrorView(message: String, onRetry: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = message, color = Color.Red, style = MaterialTheme.typography.bodyMedium)
+        Text(text = message.toString(), color = Color.Red, style = MaterialTheme.typography.bodyMedium)
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_8)))
         Button(onClick = onRetry) {
             Text(text = stringResource(id =  R.string.text_retry))

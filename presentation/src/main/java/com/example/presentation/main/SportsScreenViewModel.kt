@@ -8,16 +8,14 @@ import com.example.domain.model.SportsModelData
 import com.example.domain.model.SportsModelLists
 import com.example.domain.usecase.GetSportsCategoriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GameGenreViewModel @Inject constructor(
+class SportsScreenViewModel @Inject constructor(
     private val getSportsCategoriesUseCase: GetSportsCategoriesUseCase
 ) : ViewModel() {
 
@@ -33,11 +31,11 @@ class GameGenreViewModel @Inject constructor(
     private val _sportsCategoriesLists = MutableStateFlow<List<SportsModelLists>>(emptyList())
     val sportsCategoriesLists: StateFlow<List<SportsModelLists>> = _sportsCategoriesLists
 
-    private val _showBottomSheet = MutableSharedFlow<Boolean>()
-    val showBottomSheet: SharedFlow<Boolean> = _showBottomSheet
-
     private val _topCharacters = MutableStateFlow("No data available")
-    val topCharacters: StateFlow<String> = _topCharacters
+    val topCharacters: StateFlow<String> get() = _topCharacters
+
+    private val _showBottomSheet = MutableStateFlow(false)
+    val showBottomSheet: StateFlow<Boolean> get() = _showBottomSheet
 
     init {
         fetchSportsCategories()
