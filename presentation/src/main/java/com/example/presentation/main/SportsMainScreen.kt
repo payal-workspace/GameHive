@@ -113,11 +113,14 @@ fun GameMainScreen(viewModel: SportsScreenViewModel = hiltViewModel()) {
                     enter = slideInVertically(initialOffsetY = { it }),
                     exit = slideOutVertically(targetOffsetY = { it })
                 ) {
-                    TopCharactersBottomSheet(
-                        topCharacters = topCharacters,
-                        onClose = { isBottomSheetVisible = false },
-                        sheetState = sheetState
-                    )
+                    filteredList?.size?.let {
+                        TopCharactersBottomSheet(
+                            topCharacters = topCharacters,
+                            onClose = { isBottomSheetVisible = false },
+                            sheetState = sheetState,
+                            categoriesCount = it
+                        )
+                    }
                 }
             }
         }

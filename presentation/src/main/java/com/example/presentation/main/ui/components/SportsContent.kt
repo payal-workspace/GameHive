@@ -54,9 +54,10 @@ fun SportsContent(
                     onSearchTriggered = onSearchTriggered,
                     modifier = Modifier.fillMaxWidth()
                 )
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.corner_radius_15dp)))
             }
             itemsIndexed(filteredList) { _, category ->
-                SportsItem(sportsData = category)
+                SportsItem(data = category)
             }
         }
         Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_16)))

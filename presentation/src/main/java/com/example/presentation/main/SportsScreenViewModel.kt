@@ -102,7 +102,7 @@ class SportsScreenViewModel @Inject constructor(
             .entries
             .sortedByDescending { it.value }
             .take(3)
-            .joinToString("\n") { "${it.key} -> ${it.value}" }
+            .joinToString("\n") { "\u2022 " + "${ it.key} -> ${it.value}" }
 
         _topCharacters.value = characterCount.ifEmpty { "No data available" }
     }

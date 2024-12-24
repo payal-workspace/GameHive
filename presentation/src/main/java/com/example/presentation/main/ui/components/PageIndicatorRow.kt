@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import com.example.presentation.R
+import com.example.presentation.ui.theme.LocalCustomColorsPalette
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -39,6 +40,9 @@ fun PageIndicator(isActive: Boolean) {
             .padding(dimensionResource(id = R.dimen.padding_4))
             .size(dimensionResource(id = R.dimen.padding_8))
             .clip(CircleShape)
-            .background(if (isActive) Color.Red else Color.Gray)
+            .background(
+                if (isActive) LocalCustomColorsPalette.current.Cyan else
+                    LocalCustomColorsPalette.current.Gray
+            )
     )
 }
