@@ -22,7 +22,6 @@ private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40
-
 )
 
 @Composable
@@ -35,7 +34,6 @@ fun GameHiveTheme(
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             if (darkTheme) DarkColorScheme else LightColorScheme
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }

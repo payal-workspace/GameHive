@@ -31,23 +31,29 @@ fun SportsContent(
     onSearchTriggered: (String) -> Unit
 ) {
     Column(modifier = Modifier.padding(padding)) {
+
+        // LazyColumn for displaying the content
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_0)),
             contentPadding = PaddingValues(horizontal = dimensionResource(id = R.dimen.padding_16))
         ) {
+
+            // Show loading indicator if categories are empty
             if (categories.isEmpty()) {
                 item {
                     LoadingIndicator(modifier = Modifier.fillMaxWidth())
                 }
             } else {
+                // Show SportsCategoryPager if categories are available
                 item {
                     SportsCategoryPager(images = filteredImages, pagerState = pagerState)
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_12)))
                 }
             }
+
+            // Sticky header for SearchBar
             stickyHeader {
                 SearchBar(
                     queryState = searchQuery,
@@ -56,10 +62,16 @@ fun SportsContent(
                 )
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.corner_radius_15dp)))
             }
+
+            // List of sports items
             itemsIndexed(filteredList) { _, category ->
                 SportsItem(data = category)
             }
+
+            // Spacer to provide padding at the end
+            item {
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_16)))
+            }
         }
-        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_16)))
     }
 }

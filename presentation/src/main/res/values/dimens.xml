@@ -3,6 +3,7 @@
     <dimen name="padding_0">0dp</dimen>
     <dimen name="padding_10">10dp</dimen>
     <dimen name="large_margin">100dp</dimen>
+    <dimen name="corner_radius_8dp">8dp</dimen>
     <dimen name="corner_radius_15dp">15dp</dimen>
     <dimen name="corner_radius">20dp</dimen>
     <dimen name="padding_12">12dp</dimen>

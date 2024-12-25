@@ -18,7 +18,7 @@ fun FloatingButton(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_16)),
-        containerColor = LocalCustomColorsPalette.current.Blue40,
+        containerColor = LocalCustomColorsPalette.current.floatingButton,
         contentColor = LocalCustomColorsPalette.current.windowBackground
     ) {
         Icon(imageVector = Icons.Default.MoreVert, contentDescription = stringResource(id = R.string.open_bottomsheet))

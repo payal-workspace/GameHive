@@ -35,35 +35,30 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun GameMainScreen(viewModel: SportsScreenViewModel = hiltViewModel()) {
-
     val categories by viewModel.filteredCategories.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val topCharacters by viewModel.topCharacters.collectAsState(initial = "No data available")
-    val coroutineScope = rememberCoroutineScope()
-    var isBottomSheetVisible by remember { mutableStateOf(false) }
     val sportsCategories by viewModel.sportsCategories.collectAsState()
+    var isBottomSheetVisible by remember { mutableStateOf(false) }
 
+
+    val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
-    val pagerState = rememberPagerState(initialPage = 0) {
-        categories.size
-    }
+    val pagerState = rememberPagerState(initialPage = 0) { categories.size }
 
+    // Handle query and page state changes
     LaunchedEffect(searchQuery, pagerState.currentPage) {
         viewModel.onSearchQueryChanged(searchQuery, pagerState.currentPage)
     }
-
     LaunchedEffect(pagerState.currentPage) {
         viewModel.updateCategoryItems(pagerState.currentPage)
     }
 
     val filteredImages = categories.map { it.sportsCategoryImageUrl }
-    val filteredList = remember(pagerState.currentPage, searchQuery, categories) {
-        if (categories.isEmpty()) emptyList()
-        else categories[pagerState.currentPage]
-            .sportsCategoryItem
-            ?.filter { it.sportsTitle.contains(searchQuery, ignoreCase = true) }
-    }
-
+    val filteredList = categories.getOrNull(pagerState.currentPage)
+        ?.sportsCategoryItem
+        ?.filter { it.sportsTitle.contains(searchQuery, ignoreCase = true) }
+        ?: emptyList()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -81,50 +76,36 @@ fun GameMainScreen(viewModel: SportsScreenViewModel = hiltViewModel()) {
             when (sportsCategories) {
                 is Resource.Loading -> LoadingIndicator()
                 is Resource.Failure -> ErrorView(
-                    message = ((sportsCategories as Resource.Failure).error),
+                    message = (sportsCategories as Resource.Failure).error,
                     onRetry = { viewModel.fetchSportsCategories() }
                 )
                 is Resource.Success -> {
-                    if (categories.isNotEmpty()) {
-                        filteredList?.let {
-                            SportsContent(
-                                categories = categories,
-                                filteredImages = filteredImages,
-                                filteredList = it,
-                                pagerState = pagerState,
-                                searchQuery = searchQuery,
-                                padding = padding,
-                                onSearchTriggered = { query ->
-                                    viewModel.onSearchQueryChanged(
-                                        query,
-                                        pagerState.currentPage
-                                    )
-                                }
-                            )
-                        }
-                    } else {
+                    if (categories.isEmpty()) {
                         EmptyStateView("No categories available")
-                    }
-                }
-            }
-            if(isBottomSheetVisible){
-                AnimatedVisibility(
-                    visible = isBottomSheetVisible,
-                    enter = slideInVertically(initialOffsetY = { it }),
-                    exit = slideOutVertically(targetOffsetY = { it })
-                ) {
-                    filteredList?.size?.let {
-                        TopCharactersBottomSheet(
-                            topCharacters = topCharacters,
-                            onClose = { isBottomSheetVisible = false },
-                            sheetState = sheetState,
-                            categoriesCount = it
+                    } else {
+                        SportsContent(
+                            categories = categories,
+                            filteredImages = filteredImages,
+                            filteredList = filteredList,
+                            pagerState = pagerState,
+                            searchQuery = searchQuery,
+                            padding = padding,
+                            onSearchTriggered = { query ->
+                                viewModel.onSearchQueryChanged(query, pagerState.currentPage)
+                            }
                         )
                     }
                 }
             }
+            if (isBottomSheetVisible) {
+                TopCharactersBottomSheet(
+                    topCharacters = topCharacters,
+                    onClose = { isBottomSheetVisible = false },
+                    sheetState = sheetState,
+                    categoriesCount = filteredList.size
+                )
+            }
         }
     }
-
 }
 

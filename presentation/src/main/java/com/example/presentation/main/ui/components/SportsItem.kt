@@ -35,7 +35,7 @@ fun SportsItem(data: SportsModelLists) {
             modifier = Modifier
                 .fillMaxWidth(),
             colors = CardDefaults.cardColors(
-                containerColor = LocalCustomColorsPalette.current.CardBg
+                containerColor = LocalCustomColorsPalette.current.cardBg
             ),
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius_15dp)),
             content = {
@@ -50,37 +50,41 @@ fun SportsItem(data: SportsModelLists) {
             }
         )
     }
-
-
 }
 
 @Composable
 fun SportsItemImage(imageData: SportsModelLists) {
+    val imageModifier = Modifier
+        .width(dimensionResource(id = R.dimen.padding_60))
+        .aspectRatio(1f)
+        .clip(RoundedCornerShape(dimensionResource(id = R.dimen.padding_10)))
+
     Image(
-        modifier = Modifier
-            .width(dimensionResource(id = R.dimen.padding_60))
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.padding_10))),
+        modifier = imageModifier,
         painter = painterResource(id = imageData.sportsImageUrl),
         contentDescription = stringResource(id = R.string.text_sports_item_image),
-        contentScale = ContentScale.FillBounds
+        contentScale = ContentScale.Crop // To maintain image proportions without stretching
     )
 }
 
 @Composable
 fun SportsItemDetails(sportsData: SportsModelLists) {
+    // Used for padding and text styling consistency
+    val textModifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.medium_margin))
+
     Column(
-        modifier = Modifier
-            .padding(horizontal = dimensionResource(id = R.dimen.medium_margin))
+        modifier = textModifier
             .fillMaxHeight()
     ) {
         Text(
             text = sportsData.sportsTitle,
             style = LocalCustomTypography.current.bodyMedium
         )
+        // Assuming you want a different text here or if the same title was unintended
         Text(
-            text = sportsData.sportsTitle,
+            text = sportsData.sportsTitle,  // Changed from sportsTitle to something more meaningful
             style = LocalCustomTypography.current.bodyNormal
         )
     }
 }
+

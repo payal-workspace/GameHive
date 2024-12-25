@@ -23,8 +23,17 @@ import com.example.presentation.ui.theme.LocalCustomTypography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopCharactersBottomSheet(topCharacters: String, onClose: () -> Unit,
-                             sheetState: SheetState,categoriesCount: Int) {
+fun TopCharactersBottomSheet(
+    topCharacters: String,
+    onClose: () -> Unit,
+    sheetState: SheetState,
+    categoriesCount: Int
+) {
+    val paddingMedium = dimensionResource(id = R.dimen.padding_8)
+    val paddingLarge = dimensionResource(id = R.dimen.padding_18)
+    val textBottomSheetSize = dimensionResource(id = R.dimen.text_bottomsheet_views_size).value.sp
+    val textStatisticsSize = dimensionResource(id = R.dimen.text_bottomsheet_statistics_size).value.sp
+
     ModalBottomSheet(
         modifier = Modifier.fillMaxSize(),
         onDismissRequest = onClose,
@@ -33,36 +42,39 @@ fun TopCharactersBottomSheet(topCharacters: String, onClose: () -> Unit,
         containerColor = LocalCustomColorsPalette.current.windowBackground
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(start = dimensionResource(id = R.dimen.padding_18)),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = paddingLarge),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = stringResource(id = R.string.number_of_sports) + "-> " +categoriesCount,
+                text = stringResource(id = R.string.number_of_sports) + "-> $categoriesCount",
                 style = TextStyle(
-                    fontSize = dimensionResource(id = R.dimen.text_bottomsheet_views_size).value.sp,
+                    fontSize = textBottomSheetSize,
                     fontWeight = FontWeight.Medium,
-                    color = LocalCustomColorsPalette.current.Black
+                    color = LocalCustomColorsPalette.current.black
                 ),
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_8))
+                modifier = Modifier.padding(paddingMedium)
             )
             Text(
                 text = stringResource(id = R.string.top_characters),
                 style = LocalCustomTypography.current.titleMedium.copy(
-                    color = LocalCustomColorsPalette.current.Black),
+                    color = LocalCustomColorsPalette.current.black
+                ),
                 textAlign = TextAlign.Start,
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_8))
+                modifier = Modifier.padding(paddingMedium)
             )
             Text(
                 text = topCharacters,
                 style = LocalCustomTypography.current.titleMedium.copy(
-                    fontSize = dimensionResource(id = R.dimen.text_bottomsheet_statistics_size).value.sp,
-                    color = LocalCustomColorsPalette.current.Black),
+                    fontSize = textStatisticsSize,
+                    color = LocalCustomColorsPalette.current.black
+                ),
                 textAlign = TextAlign.Start,
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_8))
+                modifier = Modifier.padding(paddingMedium)
             )
         }
     }
-
 }
+
 

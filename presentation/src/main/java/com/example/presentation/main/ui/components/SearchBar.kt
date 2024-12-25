@@ -3,9 +3,9 @@ package com.example.presentation.main.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -17,7 +17,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -39,66 +39,72 @@ fun SearchBar(
     modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    Column(
-        modifier = modifier
-    ) {
-        OutlinedTextField(
-            value = queryState,
-            textStyle = MaterialTheme.typography.bodySmall,
-            onValueChange = { newText ->
-                onSearchTriggered(newText)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.5.dp,Color.Gray)
-                .background(LocalCustomColorsPalette.current.windowBackground)
-                .height(dimensionResource(id = R.dimen.padding_60)),
-            placeholder = {
-                Text(
-                    text = "Search",
-                    style = TextStyle(
-                        fontSize = dimensionResource(id = R.dimen.search_text_size).value.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = LocalCustomColorsPalette.current.Black
-                    ),
-                    maxLines = 1,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = stringResource(id = R.string.text_search_icon),
-                    tint = Color.Gray
-                )
-            },
-            trailingIcon = {
-                if (queryState.isNotEmpty()) {
-                    Icon(
-                        imageVector = Icons.Default.Clear,
-                        contentDescription = stringResource(id = R.string.text_clear_input),
-                        modifier = Modifier.clickable {
-                            onSearchTriggered("")
-                          //  keyboardController?.hide()
-                        },
-                        tint = Color.Gray
-                    )
+    val whiteColor = LocalCustomColorsPalette.current.white
+    val blackColor = LocalCustomColorsPalette.current.black
+    val paddingHeight = dimensionResource(id = R.dimen.padding_60)
+    val searchTextSize = dimensionResource(id = R.dimen.search_text_size).value.sp
+    val borderColor = Color.Gray
+    val cornerRadius = dimensionResource(id = R.dimen.corner_radius_8dp)
 
-                }
-            },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                    onSearchTriggered(queryState.lowercase().trim())
-                }
-            ),
-            maxLines = 1,
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Color.White
+    // Use 'remember' to store icons for optimization
+    val searchIcon = remember { Icons.Default.Search }
+    val clearIcon = remember { Icons.Default.Clear }
+
+    OutlinedTextField(
+        value = queryState,
+        onValueChange = { newText ->
+            onSearchTriggered(newText)
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .border(1.5.dp, borderColor)
+            .background(whiteColor)
+            .height(paddingHeight),
+        textStyle = MaterialTheme.typography.bodySmall,
+        placeholder = {
+            Text(
+                text = "Search",
+                style = TextStyle(
+                    fontSize = searchTextSize,
+                    fontWeight = FontWeight.Normal,
+                    color = blackColor
+                ),
+                maxLines = 1,
             )
-        )
-    }
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = searchIcon,
+                contentDescription = stringResource(id = R.string.text_search_icon),
+                tint = borderColor
+            )
+        },
+        trailingIcon = {
+            if (queryState.isNotEmpty()) {
+                Icon(
+                    imageVector = clearIcon,
+                    contentDescription = stringResource(id = R.string.text_clear_input),
+                    modifier = Modifier.clickable {
+                        onSearchTriggered("")
+                        keyboardController?.hide()
+                    },
+                    tint = borderColor
+                )
+            }
+        },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+                onSearchTriggered(queryState.lowercase().trim())
+            }
+        ),
+        maxLines = 1,
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedBorderColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(cornerRadius)
+    )
 }
 
 @Preview

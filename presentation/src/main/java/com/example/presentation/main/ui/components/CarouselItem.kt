@@ -21,13 +21,17 @@ import com.example.presentation.R
 
 @Composable
 fun SportsCategoryPagerItem(@DrawableRes imageResId: Int) {
+    val paddingHorizontal = dimensionResource(id = R.dimen.padding_16)
+    val height = dimensionResource(id = R.dimen.padding_200)
+    val cornerRadius = dimensionResource(id = R.dimen.padding_16)
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.padding_200))
-            .padding(horizontal = dimensionResource(id = R.dimen.padding_16))
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.padding_16)))
-            .background(Color.Gray)
+            .height(height)
+            .padding(horizontal = paddingHorizontal)
+            .clip(RoundedCornerShape(cornerRadius))
+            .background(Color.Gray) // Use a customizable color if needed
     ) {
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -37,3 +41,4 @@ fun SportsCategoryPagerItem(@DrawableRes imageResId: Int) {
         )
     }
 }
+

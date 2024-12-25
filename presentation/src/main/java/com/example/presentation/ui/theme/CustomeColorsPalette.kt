@@ -6,21 +6,24 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class CustomColorsPalette(
-    val primary: Color = Color.Unspecified,
-    val secondary: Color = Color.Unspecified,
-    val tertiary: Color = Color.Unspecified,
-    val custom1OnBackground: Color = Color.Unspecified,
-    val custom2OnBackground: Color = Color.Unspecified,
-    val custom1OnSurface: Color = Color.Unspecified,
-    val custom2OnSurface: Color = Color.Unspecified,
-    val other1: Color = Color.Unspecified,
-    val other2: Color = Color.Unspecified,
-    val windowBackground: Color = Color.Unspecified,
-    val CardBg: Color = Color.Unspecified,
-    val Black: Color = Color.Unspecified,
-    val Cyan: Color = Color.Unspecified,
-    val Gray: Color = Color.Unspecified,
-    val Blue40: Color = Color.Unspecified
+    val primary: Color = Color.Transparent,
+    val secondary: Color = Color.Transparent,
+    val tertiary: Color = Color.Transparent,
+    val background: Color = Color.Transparent,
+    val surface: Color = Color.Transparent,
+    val onBackground: Color = Color.Transparent,
+    val onSurface: Color = Color.Transparent,
+    val error: Color = Color.Transparent,
+    val success: Color = Color.Transparent,
+    val info: Color = Color.Transparent,
+    val warning: Color = Color.Transparent,
+    val windowBackground: Color = Color.Transparent,
+    val cardBg: Color = Color.Transparent,
+    val black: Color = Color.Black,
+    val white: Color = Color.White,
+    val cyan: Color = Color.Cyan,
+    val gray: Color = Color.Gray,
+    val floatingButton: Color = Color.DarkGray
 )
 
 val LocalCustomColorsPalette = staticCompositionLocalOf { CustomColorsPalette() }
@@ -30,17 +33,18 @@ val OnLightCustomColorsPalette = CustomColorsPalette(
     secondary = PurpleGrey80,
     tertiary = Pink80,
     windowBackground = windowBackground,
-    CardBg = CardBg,
-    Black = Black,
-    Cyan = Cyan,
-    Gray = Gray,
-    Blue40 = Blue40,
-    custom1OnBackground = Color(color = 0xFF1A237E),
-    custom2OnBackground = Color(color = 0xFF1B5E20),
-    custom1OnSurface = Color(color = 0xFFE53935),
-    custom2OnSurface = Color(color = 0xFFD81B60),
-    other1 = Color(color = 0xFF006064),
-    other2 = Color(color = 0xFF643700)
+    cardBg = CardBg,
+    black = Black,
+    cyan = Cyan,
+    gray = Gray,
+    success = Color.Green,
+    info = Color.Cyan,
+    warning = Color.Yellow,
+    white = White,
+    onBackground = Color(0xFF1A237E),  // Custom dark shade
+    onSurface = Color(0xFFE53935),   // Custom surface color
+    background = Color.White,
+    floatingButton =  floatingButton
 )
 
 val OnDarkCustomColorsPalette = CustomColorsPalette(
@@ -48,15 +52,16 @@ val OnDarkCustomColorsPalette = CustomColorsPalette(
     secondary = PurpleGrey40,
     tertiary = Pink40,
     windowBackground = windowBackground,
-    CardBg = CardBg,
-    Black = Black,
-    Cyan = Cyan,
-    Gray = Gray,
-    Blue40 = Blue40,
-    custom1OnBackground = Color(color = 0xFF1E88E5),
-    custom2OnBackground = Color(color = 0xFF43A047),
-    custom1OnSurface = Color(color = 0xFFC62828),
-    custom2OnSurface = Color(color = 0xFFAD1457),
-    other1 = Color(color = 0xFF00897B),
-    other2 = Color(color = 0xFF896200)
+    cardBg = CardBg,
+    black = Black,
+    cyan = Cyan,
+    gray = Gray,
+    success = Color.Green,
+    info = Color.Cyan,
+    warning = Color.Yellow,
+    white = White,
+    onBackground = Color(0xFF1E88E5),  // Custom dark shade
+    onSurface = Color(0xFFC62828),   // Custom surface color
+    background = Color.Black,
+    floatingButton =  floatingButton
 )

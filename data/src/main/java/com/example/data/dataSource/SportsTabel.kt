@@ -6,148 +6,87 @@ import com.example.data.model.SportsCategoryEntity
 import com.example.data.model.SportsCategoryLists
 
 
-class SportsTabel {
+sealed class SportsCategory(val name: String, val iconResId: Int) {
+    object Adventure : SportsCategory("Adventure Sports", R.drawable.adventure_sports)
+    object Water : SportsCategory("Water Sports",  R.drawable.adventure_sports)
+    object Team : SportsCategory("Team Sports",  R.drawable.adventure_sports)
+    object Individual : SportsCategory("Individual Sports",  R.drawable.adventure_sports)
+    object Winter : SportsCategory("Winter Sports",  R.drawable.adventure_sports)
+    object Racing : SportsCategory("Racing Sports",  R.drawable.adventure_sports)
+}
 
+class SportsTable {
     private val sportsListsData = SportsCategoryEntity(
         data = listOf(
-            SportsCategoryData(
-                "Adventure Sports", R.drawable.adventure_sports,
-
-                sportsCategoryItem = listOf(
-                    SportsCategoryLists( R.drawable.adventure_sports,"Mountaineering",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Trekking",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Rock Climbing",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Hot Air Ballooning",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Bunjee Jumping",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Paraglinding",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Sky Diving",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Cave Exploration",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Zip Lining",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Hang Gliding",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Snowboarding",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Mountain Biking",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Kite Surfing",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Sky Surfing",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Canoeing",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Wingsuit",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Cliff Diving",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Trail Running",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Bunjee Jumping",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Flyboarding",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Sky Diving","")
-                ),
-            ),
-            SportsCategoryData(
-                "Water Sports", R.drawable.adventure_sports,
-
-                sportsCategoryItem = listOf(
-                    SportsCategoryLists( R.drawable.adventure_sports,"Diving",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Swimming",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Surfing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Scuba Diving",""),
-                    SportsCategoryLists( R.drawable.adventure_sports,"Jet Skiing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Kayaking",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Rafting",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Yatching",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Canoe Polo",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Fishing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Water Polo",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Rowing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Skim Boarding",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Free Diving",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Wake Boarding",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Kneeboarding",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Sailing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Dragon board racing","")
-
-                ),
-            ),
-            SportsCategoryData(
-                "Team Sports", R.drawable.adventure_sports,
-
-                sportsCategoryItem = listOf(
-                    SportsCategoryLists(R.drawable.adventure_sports,"Basketball",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Volleyball",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Cricket",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"BasketBall",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Hockey",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Lacrosse",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Football",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Baseball",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Badminton",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Water Polo",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Snow Volleyball",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Tug of War",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Handball",""),
-
+            createCategory(
+                SportsCategory.Adventure,
+                listOf(
+                    "Mountaineering", "Trekking", "Rock Climbing", "Hot Air Ballooning",
+                    "Bungee Jumping", "Paragliding", "Sky Diving", "Cave Exploration",
+                    "Zip Lining", "Hang Gliding", "Snowboarding", "Mountain Biking",
+                    "Kite Surfing", "Sky Surfing", "Canoeing", "Wingsuit", "Cliff Diving",
+                    "Trail Running", "Flyboarding"
                 )
             ),
-            SportsCategoryData(
-                "Individual Sports", R.drawable.adventure_sports,
-
-                sportsCategoryItem = listOf(
-
-                    SportsCategoryLists(R.drawable.adventure_sports,"Chess",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Darts",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Golf",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Judo",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Skating",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Jet Ski",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Kayaking",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Taekwondo",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Tennis",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Swimming",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Snooker",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Bodybuilding",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Motorcycling",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Weightlifting",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Disc Golf",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Archery","")
-                ),
+            createCategory(
+                SportsCategory.Water,
+                listOf(
+                    "Diving", "Swimming", "Surfing", "Scuba Diving", "Jet Skiing",
+                    "Kayaking", "Rafting", "Yachting", "Canoe Polo", "Fishing",
+                    "Water Polo", "Rowing", "Skim Boarding", "Free Diving",
+                    "Wake Boarding", "Kneeboarding", "Sailing", "Dragon Boat Racing"
+                )
             ),
-            SportsCategoryData(
-                "Winter Sports", R.drawable.adventure_sports,
-
-                sportsCategoryItem = listOf(
-                    SportsCategoryLists(R.drawable.adventure_sports," Ice skating",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Skiing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Snowbiking",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Ice racing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Snow Golf",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Snow Polo",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Ice Fishing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Monoskiing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Speed skiing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Sneak boat hunting",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Ice yachting",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Winter Swimming","")
-                ),
+            createCategory(
+                SportsCategory.Team,
+                listOf(
+                    "Basketball", "Volleyball", "Cricket", "Hockey", "Lacrosse",
+                    "Football", "Baseball", "Badminton", "Water Polo", "Snow Volleyball",
+                    "Tug of War", "Handball"
+                )
             ),
-            SportsCategoryData(
-                "Racing Sports", R.drawable.adventure_sports,
-
-                sportsCategoryItem = listOf(
-                    SportsCategoryLists(R.drawable.adventure_sports,"Speed Climbing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Paralympic Swimming",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Marathon Swimming",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Sandboarding",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Track Cycling",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Skiing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Skating",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Camel Racing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Drone Racing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Open Wheel Racing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Motor cycle racing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Slot car racing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Rowing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Yatch racing",""),
-                    SportsCategoryLists(R.drawable.adventure_sports,"Mountain biking","")
-                ),
+            createCategory(
+                SportsCategory.Individual,
+                listOf(
+                    "Chess", "Darts", "Golf", "Judo", "Skating", "Jet Ski",
+                    "Kayaking", "Taekwondo", "Tennis", "Swimming", "Snooker",
+                    "Bodybuilding", "Motorcycling", "Weightlifting", "Disc Golf", "Archery"
+                )
+            ),
+            createCategory(
+                SportsCategory.Winter,
+                listOf(
+                    "Ice Skating", "Skiing", "Snowbiking", "Ice Racing", "Snow Golf",
+                    "Snow Polo", "Ice Fishing", "Monoskiing", "Speed Skiing",
+                    "Sneak Boat Hunting", "Ice Yachting", "Winter Swimming"
+                )
+            ),
+            createCategory(
+                SportsCategory.Racing,
+                listOf(
+                    "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
+                    "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
+                    "Open Wheel Racing", "Motorcycle Racing", "Slot Car Racing", "Rowing",
+                    "Yacht Racing", "Mountain Biking"
+                )
             )
         )
     )
 
     suspend fun getGameListsData(): SportsCategoryEntity {
         return sportsListsData
+    }
+    private fun createCategory(category: SportsCategory, items: List<String>): SportsCategoryData {
+        return SportsCategoryData(
+            sportsCategoryTitle = category.name,
+            sportsCategoryImageUrl = category.iconResId,
+            sportsCategoryItem = items.map { title ->
+                SportsCategoryLists(
+                    sportsImageUrl = category.iconResId, // Default icon for all items
+                    sportsTitle = title,
+                    sportsDescription = ""
+                )
+            }
+        )
     }
 }
