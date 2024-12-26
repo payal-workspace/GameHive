@@ -26,6 +26,12 @@ class SportsTable {
                     "Zip Lining", "Hang Gliding", "Snowboarding", "Mountain Biking",
                     "Kite Surfing", "Sky Surfing", "Canoeing", "Wingsuit", "Cliff Diving",
                     "Trail Running", "Flyboarding"
+                ),
+                listOf(
+                    "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
+                    "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
+                    "Open Wheel Racing", "Motorcycle Racing", "Slot Car Racing", "Rowing",
+                    "Yacht Racing", "Mountain Biking"
                 )
             ),
             createCategory(
@@ -35,6 +41,12 @@ class SportsTable {
                     "Kayaking", "Rafting", "Yachting", "Canoe Polo", "Fishing",
                     "Water Polo", "Rowing", "Skim Boarding", "Free Diving",
                     "Wake Boarding", "Kneeboarding", "Sailing", "Dragon Boat Racing"
+                ),
+                listOf(
+                    "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
+                    "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
+                    "Open Wheel Racing", "Motorcycle Racing", "Slot Car Racing", "Rowing",
+                    "Yacht Racing", "Mountain Biking"
                 )
             ),
             createCategory(
@@ -43,6 +55,12 @@ class SportsTable {
                     "Basketball", "Volleyball", "Cricket", "Hockey", "Lacrosse",
                     "Football", "Baseball", "Badminton", "Water Polo", "Snow Volleyball",
                     "Tug of War", "Handball"
+                ),
+                listOf(
+                    "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
+                    "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
+                    "Open Wheel Racing", "Motorcycle Racing", "Slot Car Racing", "Rowing",
+                    "Yacht Racing", "Mountain Biking"
                 )
             ),
             createCategory(
@@ -51,6 +69,12 @@ class SportsTable {
                     "Chess", "Darts", "Golf", "Judo", "Skating", "Jet Ski",
                     "Kayaking", "Taekwondo", "Tennis", "Swimming", "Snooker",
                     "Bodybuilding", "Motorcycling", "Weightlifting", "Disc Golf", "Archery"
+                ),
+                listOf(
+                    "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
+                    "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
+                    "Open Wheel Racing", "Motorcycle Racing", "Slot Car Racing", "Rowing",
+                    "Yacht Racing", "Mountain Biking"
                 )
             ),
             createCategory(
@@ -59,10 +83,22 @@ class SportsTable {
                     "Ice Skating", "Skiing", "Snowbiking", "Ice Racing", "Snow Golf",
                     "Snow Polo", "Ice Fishing", "Monoskiing", "Speed Skiing",
                     "Sneak Boat Hunting", "Ice Yachting", "Winter Swimming"
+                ),
+                listOf(
+                    "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
+                    "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
+                    "Open Wheel Racing", "Motorcycle Racing", "Slot Car Racing", "Rowing",
+                    "Yacht Racing", "Mountain Biking"
                 )
             ),
             createCategory(
                 SportsCategory.Racing,
+                listOf(
+                    "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
+                    "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
+                    "Open Wheel Racing", "Motorcycle Racing", "Slot Car Racing", "Rowing",
+                    "Yacht Racing", "Mountain Biking"
+                ),
                 listOf(
                     "Speed Climbing", "Paralympic Swimming", "Marathon Swimming", "Sandboarding",
                     "Track Cycling", "Skiing", "Skating", "Camel Racing", "Drone Racing",
@@ -76,7 +112,7 @@ class SportsTable {
     suspend fun getGameListsData(): SportsCategoryEntity {
         return sportsListsData
     }
-    private fun createCategory(category: SportsCategory, items: List<String>): SportsCategoryData {
+    private fun createCategory(category: SportsCategory, items: List<String>,descripion: List<String>): SportsCategoryData {
         return SportsCategoryData(
             sportsCategoryTitle = category.name,
             sportsCategoryImageUrl = category.iconResId,
@@ -84,7 +120,9 @@ class SportsTable {
                 SportsCategoryLists(
                     sportsImageUrl = category.iconResId,
                     sportsTitle = title,
-                    sportsDescription = ""
+                    sportsDescription = descripion.map {
+                        it
+                    }.toString()
                 )
             }
         )

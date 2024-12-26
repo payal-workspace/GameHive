@@ -35,9 +35,9 @@ data class AppTypography(
     ),
     val bodyMedium: TextStyle = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         color = Color.Black,
-        fontSize = 18.sp
+        fontSize = 19.sp
     ),
     val bodyNormal: TextStyle = TextStyle(
         fontFamily = FontFamily.Default,
