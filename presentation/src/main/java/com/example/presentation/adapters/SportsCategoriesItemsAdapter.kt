@@ -30,6 +30,7 @@ class SportsCategoryItemAdapter : ListAdapter<SportsModelLists, SportsCategoryIt
         fun bind(item: SportsModelLists) {
             binding.gameImage.setBackgroundResource(item.sportsImageUrl)
             binding.tvCategoryName.text = item.sportsTitle
+            binding.tvCategoryDescription.text = item.sportsDescription
         }
     }
 

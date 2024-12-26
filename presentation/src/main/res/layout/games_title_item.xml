@@ -29,9 +29,23 @@
         android:inputType="textNoSuggestions"
         android:textColor="@color/txt_list_item"
         style="@style/BoldTextStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/gameImage"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCategoryDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_10dp"
+        android:gravity="start"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/txt_list_item"
+        style="@style/NormalTextStyle"
+        android:textSize="@dimen/text_18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/gameImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvCategoryName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

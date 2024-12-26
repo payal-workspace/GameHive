@@ -40,6 +40,7 @@
 
     <dimen name="text_small">11sp</dimen>
     <dimen name="text_medium">13sp</dimen>
+    <dimen name="text_18sp">18sp</dimen>
     <dimen name="text_large">21sp</dimen>
     <dimen name="text_xlarge">21sp</dimen>
     <dimen name="text_xxlarge">30sp</dimen>

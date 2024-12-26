@@ -85,7 +85,7 @@ class SportsTable {
                 SportsCategoryLists(
                     sportsImageUrl = category.iconResId,
                     sportsTitle = title,
-                    sportsDescription = ""
+                    sportsDescription = title
                 )
             }
         )
