@@ -25,9 +25,3 @@ The app follows **Clean Architecture**:
 - **RecyclerView** and **ViewPager** for displaying lists.
 - **Coroutines** for background tasks.
 
-## Setup Instructions
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-repo/sports-game-catalog.git
-   cd sports-game-catalog
