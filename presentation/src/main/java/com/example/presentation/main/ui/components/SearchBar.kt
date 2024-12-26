@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
@@ -41,10 +42,10 @@ fun SearchBar(
     val keyboardController = LocalSoftwareKeyboardController.current
     val whiteColor = LocalCustomColorsPalette.current.white
     val blackColor = LocalCustomColorsPalette.current.black
-    val paddingHeight = dimensionResource(id = R.dimen.padding_60)
+    val paddingHeight = dimensionResource(id = R.dimen.padding_55)
     val searchTextSize = dimensionResource(id = R.dimen.search_text_size).value.sp
-    val borderColor = Color.Gray
-    val cornerRadius = dimensionResource(id = R.dimen.corner_radius_8dp)
+    val borderColor = LocalCustomColorsPalette.current.floatingButton
+    val cornerRadius = dimensionResource(id = R.dimen.padding_12)
 
     val searchIcon = remember { Icons.Default.Search }
     val clearIcon = remember { Icons.Default.Clear }
@@ -56,9 +57,10 @@ fun SearchBar(
         },
         modifier = modifier
             .fillMaxWidth()
-            .border(1.5.dp, borderColor)
-            .background(whiteColor)
-            .height(paddingHeight),
+            .height(paddingHeight)
+            .border(1.2.dp, borderColor)
+            .background(whiteColor),
+
         textStyle = MaterialTheme.typography.bodySmall,
         placeholder = {
             Text(

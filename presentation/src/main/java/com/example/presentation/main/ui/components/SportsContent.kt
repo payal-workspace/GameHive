@@ -45,7 +45,7 @@ fun SportsContent(
             } else {
                 item {
                     SportsCategoryPager(images = filteredImages, pagerState = pagerState)
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_12)))
+                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.text_bottomsheet_views_size)))
                 }
             }
             stickyHeader {

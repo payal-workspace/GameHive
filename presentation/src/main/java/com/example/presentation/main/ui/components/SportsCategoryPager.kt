@@ -16,8 +16,6 @@ import com.example.presentation.R
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SportsCategoryPager(images: List<Int>, pagerState: PagerState) {
-    val pageCount = images.size
-
     val currentPagerState = remember { pagerState }
 
     Column(
