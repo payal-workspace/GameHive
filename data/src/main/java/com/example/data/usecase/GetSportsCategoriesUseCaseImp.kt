@@ -31,7 +31,6 @@ class GetSportsCategoriesUseCaseImp @Inject constructor(
                 is Resource.Failure -> {
                     emit(Resource.Failure(resource.error))
                 }
-
             }
         } catch (e: Exception) {
             emit(Resource.Failure(e))

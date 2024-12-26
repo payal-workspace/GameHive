@@ -1,6 +1,6 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="padding_0dp">0dp</dimen>
+    <dimen name="padding_1dp">1dp</dimen>
     <dimen name="padding_4dp">4dp</dimen>
     <dimen name="padding_5dp">5dp</dimen>
     <dimen name="padding_8dp">8dp</dimen>
@@ -29,19 +29,28 @@
     <dimen name="padding_120dp">120dp</dimen>
     <dimen name="padding_150dp">150dp</dimen>
 
-
     <dimen name="textview_small_size">11sp</dimen>
     <dimen name="textview_middle_size">13sp</dimen>
     <dimen name="textview_big_0_size">21sp</dimen>
     <dimen name="textview_big_1_size">30sp</dimen>
 
+    <dimen name="margin_xl">80dp</dimen>
+    <dimen name="margin_xxl">100dp</dimen>
+    <dimen name="large_horizontal_margin">22dp</dimen>
+
+    <dimen name="text_small">11sp</dimen>
+    <dimen name="text_medium">13sp</dimen>
+    <dimen name="text_large">21sp</dimen>
+    <dimen name="text_xlarge">21sp</dimen>
+    <dimen name="text_xxlarge">30sp</dimen>
+
     <dimen name="margin_small">10dp</dimen>
     <dimen name="margin_medium">20dp</dimen>
     <dimen name="margin_large">40dp</dimen>
-    <dimen name="margin_xl">80dp</dimen>
-    <dimen name="margin_xxl">100dp</dimen>
+    <dimen name="margin_xlarge">80dp</dimen>
+    <dimen name="margin_xxlarge">100dp</dimen>
     <dimen name="margin_big_xl">150dp</dimen>
     <dimen name="margin_big_xxl">180dp</dimen>
-    <dimen name="margin_big_xxxl">200</dimen>
-
+    <dimen name="margin_big_xxxl">200dp</dimen>
+    <dimen name="margin_horizontal_large">22dp</dimen>
 </resources>

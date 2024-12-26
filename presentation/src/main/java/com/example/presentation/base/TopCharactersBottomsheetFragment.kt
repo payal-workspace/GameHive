@@ -21,6 +21,7 @@ class TopCharacterBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var viewModel: GameGenreViewModel
 
     private var topCharacters: String = "No data available"
+    private var totalCategories: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +33,24 @@ class TopCharacterBottomSheetFragment : BottomSheetDialogFragment() {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.topCharacters.collect { characterData ->
-                    topCharacters = characterData
-                    binding.tvTopCharacters.text = topCharacters
+                launch {
+                    viewModel.topCharacters.collect { characterData ->
+                        topCharacters = characterData
+                        binding.let{
+                            binding.tvTopCharacters.text = topCharacters
+                        }
+
+                    }
+                }
+                launch {
+                    viewModel.sportsCategoriesLists.collect{ categories->
+                        totalCategories = categories.size
+                        binding.tvNoOfCategories.text = "Number of categories -> $totalCategories"
+                    }
                 }
             }
-
         }
+
         return binding.root
     }
 

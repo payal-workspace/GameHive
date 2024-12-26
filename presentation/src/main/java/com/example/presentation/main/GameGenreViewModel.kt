@@ -34,11 +34,11 @@ class GameGenreViewModel @Inject constructor(
     private val _sportsCategoriesLists = MutableStateFlow<List<SportsModelLists>>(emptyList())
     val sportsCategoriesLists: StateFlow<List<SportsModelLists>> = _sportsCategoriesLists
 
-    private val _showBottomSheet = MutableSharedFlow<Boolean>()
-    val showBottomSheet: SharedFlow<Boolean> = _showBottomSheet
-
     private val _topCharacters = MutableStateFlow("No data available")
-    val topCharacters: StateFlow<String> = _topCharacters
+    val topCharacters: StateFlow<String> get() = _topCharacters
+
+    private val _showBottomSheet = MutableSharedFlow<Unit>()
+    val showBottomSheet: SharedFlow<Unit> get() = _showBottomSheet
 
     init {
         fetchSportsCategories()
@@ -62,42 +62,48 @@ class GameGenreViewModel @Inject constructor(
 
         }
     )
-
     fun updateCategoryItems(pageIndex: Int) {
-        if(filteredCategories.value.isEmpty()) return
-        val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
+        val items = _filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
         _sportsCategoriesLists.value = items
+        clearSearchQuery()
+    }
+
+    private fun clearSearchQuery() {
         _searchQuery.value = ""
     }
 
     fun onSearchQueryChanged(query: String, pageIndex: Int) {
         _searchQuery.value = query
-        val items = filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
-        _sportsCategoriesLists.value = if (query.isBlank()) items
-        else items.filter { it.sportsTitle.contains(query, ignoreCase = true) }
+        val items = _filteredCategories.value.getOrNull(pageIndex)?.sportsCategoryItem.orEmpty()
+        _sportsCategoriesLists.value = if (query.isBlank()) {
+            items
+        } else {
+            items.filter { it.sportsTitle.contains(query, ignoreCase = true) }
+        }
+        calculateTopCharacters()
     }
 
     fun showBottomSheet() = viewModelScope.launch {
         calculateTopCharacters()
-        _showBottomSheet.emit(true)
+        _showBottomSheet.emit(Unit)
     }
 
+
     private fun calculateTopCharacters() {
-        val currentPageIndex =
-            filteredCategories.value.indexOfFirst { it.sportsCategoryItem == _sportsCategoriesLists.value }
-        val itemsOnCurrentPage =
-            filteredCategories.value.getOrNull(currentPageIndex)?.sportsCategoryItem.orEmpty()
-
-        val characterCount = itemsOnCurrentPage
-            .flatMap { it.sportsTitle.toCharArray().toList() }
-            .groupingBy { it }
-            .eachCount()
-            .entries
-            .sortedByDescending { it.value }
-            .take(3)
-            .joinToString("\n") { "${it.key} -> ${it.value}" }
-
-        _topCharacters.value = characterCount.ifEmpty { "No data available" }
+        val itemsOnCurrentPage = _sportsCategoriesLists.value
+        val characterCount = if (itemsOnCurrentPage.isNotEmpty()) {
+            itemsOnCurrentPage
+                .flatMap { it.sportsTitle.lowercase().toList() }
+                .groupingBy { it }
+                .eachCount()
+                .entries
+                .sortedByDescending { it.value }
+                .take(3)
+                .joinToString("\n") { "\u2022 ${it.key} -> ${it.value}" }
+        } else {
+            "No data available"
+        }
+        _topCharacters.value = characterCount
     }
 }
 
