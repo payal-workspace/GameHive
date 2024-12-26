@@ -63,13 +63,12 @@ fun SportsItemImage(imageData: SportsModelLists) {
         modifier = imageModifier,
         painter = painterResource(id = imageData.sportsImageUrl),
         contentDescription = stringResource(id = R.string.text_sports_item_image),
-        contentScale = ContentScale.Crop // To maintain image proportions without stretching
+        contentScale = ContentScale.Crop
     )
 }
 
 @Composable
 fun SportsItemDetails(sportsData: SportsModelLists) {
-    // Used for padding and text styling consistency
     val textModifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.medium_margin))
 
     Column(
@@ -80,9 +79,8 @@ fun SportsItemDetails(sportsData: SportsModelLists) {
             text = sportsData.sportsTitle,
             style = LocalCustomTypography.current.bodyMedium
         )
-        // Assuming you want a different text here or if the same title was unintended
         Text(
-            text = sportsData.sportsTitle,  // Changed from sportsTitle to something more meaningful
+            text = sportsData.sportsTitle,
             style = LocalCustomTypography.current.bodyNormal
         )
     }

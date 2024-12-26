@@ -18,15 +18,13 @@ import com.example.presentation.R
 fun SportsCategoryPager(images: List<Int>, pagerState: PagerState) {
     val pageCount = images.size
 
-    // Use remember to avoid unnecessary recomposition of pagerState
     val currentPagerState = remember { pagerState }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = dimensionResource(id = R.dimen.padding_16)) // Add padding for spacing
+            .padding(horizontal = dimensionResource(id = R.dimen.padding_16))
     ) {
-        // HorizontalPager to display images
         HorizontalPager(
             state = currentPagerState,
             modifier = Modifier
@@ -35,8 +33,6 @@ fun SportsCategoryPager(images: List<Int>, pagerState: PagerState) {
         ) { pageIndex ->
             SportsCategoryPagerItem(imageResId = images[pageIndex])
         }
-
-        // Page Indicator Row below the pager
         PageIndicatorRow(images = images, pagerState = currentPagerState)
     }
 }

@@ -33,7 +33,6 @@ fun PageIndicatorRow(images: List<Int>, pagerState: PagerState) {
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        // Using a more efficient loop for creating indicators
         repeat(totalPages) { index ->
             PageIndicator(isActive = index == currentPage, activeColor = LocalCustomColorsPalette.current.cyan, inactiveColor = LocalCustomColorsPalette.current.gray)
         }

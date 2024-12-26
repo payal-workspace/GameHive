@@ -20,7 +20,7 @@ fun EmptyStateView(
     modifier: Modifier = Modifier,
     messageStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     textAlign: TextAlign = TextAlign.Center,
-    icon: @Composable (() -> Unit)? = null // Optional icon parameter
+    icon: @Composable (() -> Unit)? = null
 ) {
     Box(
         modifier = modifier.fillMaxSize(),

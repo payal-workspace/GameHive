@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,10 +32,10 @@ fun SportsCategoryPagerItem(@DrawableRes imageResId: Int) {
             .height(height)
             .padding(horizontal = paddingHorizontal)
             .clip(RoundedCornerShape(cornerRadius))
-            .background(Color.Gray) // Use a customizable color if needed
+            .background(Color.Gray)
     ) {
         Image(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().aspectRatio(1.5f),
             painter = painterResource(id = imageResId),
             contentDescription = stringResource(id = R.string.text_carousel_image),
             contentScale = ContentScale.Crop

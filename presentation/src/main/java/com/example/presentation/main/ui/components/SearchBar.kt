@@ -46,7 +46,6 @@ fun SearchBar(
     val borderColor = Color.Gray
     val cornerRadius = dimensionResource(id = R.dimen.corner_radius_8dp)
 
-    // Use 'remember' to store icons for optimization
     val searchIcon = remember { Icons.Default.Search }
     val clearIcon = remember { Icons.Default.Clear }
 

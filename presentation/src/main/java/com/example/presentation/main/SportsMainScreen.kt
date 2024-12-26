@@ -46,7 +46,6 @@ fun GameMainScreen(viewModel: SportsScreenViewModel = hiltViewModel()) {
     val sheetState = rememberModalBottomSheetState()
     val pagerState = rememberPagerState(initialPage = 0) { categories.size }
 
-    // Handle query and page state changes
     LaunchedEffect(searchQuery, pagerState.currentPage) {
         viewModel.onSearchQueryChanged(searchQuery, pagerState.currentPage)
     }

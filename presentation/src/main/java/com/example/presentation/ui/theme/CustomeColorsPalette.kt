@@ -41,8 +41,8 @@ val OnLightCustomColorsPalette = CustomColorsPalette(
     info = Color.Cyan,
     warning = Color.Yellow,
     white = White,
-    onBackground = Color(0xFF1A237E),  // Custom dark shade
-    onSurface = Color(0xFFE53935),   // Custom surface color
+    onBackground = Color(0xFF1A237E),
+    onSurface = Color(0xFFE53935),
     background = Color.White,
     floatingButton =  floatingButton
 )
@@ -60,8 +60,8 @@ val OnDarkCustomColorsPalette = CustomColorsPalette(
     info = Color.Cyan,
     warning = Color.Yellow,
     white = White,
-    onBackground = Color(0xFF1E88E5),  // Custom dark shade
-    onSurface = Color(0xFFC62828),   // Custom surface color
+    onBackground = Color(0xFF1E88E5),
+    onSurface = Color(0xFFC62828),
     background = Color.Black,
     floatingButton =  floatingButton
 )

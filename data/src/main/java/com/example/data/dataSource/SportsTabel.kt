@@ -82,7 +82,7 @@ class SportsTable {
             sportsCategoryImageUrl = category.iconResId,
             sportsCategoryItem = items.map { title ->
                 SportsCategoryLists(
-                    sportsImageUrl = category.iconResId, // Default icon for all items
+                    sportsImageUrl = category.iconResId,
                     sportsTitle = title,
                     sportsDescription = ""
                 )
